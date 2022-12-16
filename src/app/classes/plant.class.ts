@@ -4,7 +4,7 @@ import { Bath } from './bath.class';
 import { Crane } from './crane.class';
 import { Logger } from './logger.class';
 import { Drum } from './drum.class';
-import { defaultCraneTimes } from '../settings';
+import { defaultCraneTimes, simulationSettings } from '../settings';
 
 // Interfaces
 import { AuftragSettings } from '../interfaces/auftrag.interfaces';
@@ -322,32 +322,21 @@ export class Plant {
       }
       case CraneStatus.Waiting: {
         if (this.bathsWaiting.length > 0) {
-          this.scheduleOperation(Scheduler.FCFS);
+          switch (simulationSettings.scheduler) {
+            case Scheduler.FCFS: {
+              this.scheduleFCFS();
+              break;
+            }
+            default: {
+              this.logger.log(
+                'Plant:scheduleOperation',
+                'Unhandled Scheduler specified!',
+                LogImportance.Error
+              );
+              break;
+            }
+          }
         }
-        break;
-      }
-    }
-  }
-
-  /**
-   * This is the main scheduler, to know which operation the crane
-   * must execute. Based on the passed scheduler type, it chooses
-   * which will be the operation and calculates the phases.
-   *
-   * @param scheduler Scheduler to use
-   */
-  private scheduleOperation(scheduler: Scheduler): void {
-    switch (scheduler) {
-      case Scheduler.FCFS: {
-        this.scheduleFCFS();
-        break;
-      }
-      default: {
-        this.logger.log(
-          'Plant:scheduleOperation',
-          'Unhandled Scheduler specified!',
-          LogImportance.Error
-        );
         break;
       }
     }

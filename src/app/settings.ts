@@ -6,7 +6,7 @@
 
 // Enums
 import { BathType } from './enums/bath.enums';
-import { LogLevel, Process } from './enums/shared.enums';
+import { LogLevel, Process, Scheduler } from './enums/shared.enums';
 
 // Interfaces
 import { AuftragSettings } from './interfaces/auftrag.interfaces';
@@ -46,6 +46,10 @@ export const simulationSettings: SimulationSettings = {
    * a time in seconds
    */
   sampleTime: 1,
+  /**
+   * Type of Scheduler to use for the crane
+   */
+  scheduler: Scheduler.FCFS,
   /**
    * Level of logging in Console
    */
