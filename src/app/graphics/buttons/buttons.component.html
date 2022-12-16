@@ -1,0 +1,25 @@
+<ul class="wrapper">
+  <li class="icon play" *ngIf="this.viewBtn.start" (click)="simulationStart()">
+    <span class="tooltip">Start</span>
+    <span class="material-symbols-rounded"> play_arrow </span>
+  </li>
+  <li
+    class="icon play"
+    *ngIf="this.viewBtn.resume"
+    (click)="simulationResume()"
+  >
+    <span class="tooltip">Resume</span>
+    <span class="material-symbols-rounded"> play_arrow </span>
+  </li>
+  <li class="icon pause" *ngIf="this.viewBtn.pause" (click)="simulationPause()">
+    <span class="tooltip">Pause</span>
+    <span class="material-symbols-rounded"> pause </span>
+  </li>
+  <li class="time">
+    <span>{{ time }}</span>
+  </li>
+  <li class="icon reset" *ngIf="this.viewBtn.reset" (click)="simulationReset()">
+    <span class="tooltip">Reset</span>
+    <span class="material-symbols-rounded"> stop </span>
+  </li>
+</ul>

@@ -25,17 +25,12 @@
   </div>
   <div class="title">{{ this.silberAnlage.name }} simulation</div>
 </div>
-<!--<h1>{{ this.silberAnlage.name }} simulation</h1>-->
-<div>
-  <button (click)="simulationStart()" *ngIf="this.viewBtn.start">Start</button>
-  <button (click)="simulationPause()" *ngIf="this.viewBtn.pause">Pause</button>
-  <button (click)="simulationResume()" *ngIf="this.viewBtn.resume">
-    Resume
-  </button>
-  <code>
-    {{ getSimulationTime() }}
-  </code>
-  <button (click)="simulationReset()" *ngIf="this.viewBtn.reset">Reset</button>
-</div>
-<!--<div [innerHtml]="this.renderingOutput"></div>-->
+<simulation-buttons
+  [viewBtn]="this.viewBtn"
+  [time]="getSimulationTime()"
+  (clickStart)="simulationStart()"
+  (clickPause)="simulationPause()"
+  (clickReset)="simulationReset()"
+  (clickResume)="simulationResume()"
+></simulation-buttons>
 <div [innerHtml]="renderOutput()"></div>
