@@ -1,5 +1,5 @@
 import { BathType } from '../enums/bath.enums';
-import { LogLevel, Scheduler } from '../enums/shared.enums';
+import { Graphics, LogLevel, Scheduler } from '../enums/shared.enums';
 
 /**
  * Interface to store working times for Baths
@@ -19,4 +19,5 @@ export interface SimulationSettings {
   sampleTime: number;
   scheduler: Scheduler;
   logLevel: LogLevel;
+  graphics: Graphics;
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Plant } from './classes/plant.class';
 import { Simulation } from './classes/simulation.class';
+import { Graphics } from './enums/shared.enums';
 import { AsciiGraphics } from './graphics/ascii.graphics';
 import {
   aufragToWork,
@@ -18,7 +19,8 @@ export class AppComponent implements OnInit {
   silberAnlage: Plant;
   silberAnlageSimulation: Simulation;
 
-  graphicMotorAscii: AsciiGraphics;
+  //graphicMotorAscii: AsciiGraphics;
+  graphicMotor: AsciiGraphics; // | CSSGraphics | ThreeJSGraphics
   renderingOutput: string;
 
   // View variables
@@ -38,7 +40,19 @@ export class AppComponent implements OnInit {
       reset: false,
       resume: false,
     };
-    this.graphicMotorAscii = new AsciiGraphics();
+
+    // Initialize graphics motor
+    switch (simulationSettings.graphics) {
+      case Graphics.ASCII: {
+        this.graphicMotor = new AsciiGraphics();
+        break;
+      }
+      case Graphics.CSS:
+      case Graphics.ThreeJS: {
+        console.error('The choosen graphic motor is not yet implemented');
+        break;
+      }
+    }
 
     // Initialize new plant
     this.silberAnlage = new Plant(
@@ -54,7 +68,7 @@ export class AppComponent implements OnInit {
       simulationSettings
     );
 
-    this.renderingOutput = this.graphicMotorAscii.updateView(
+    this.renderingOutput = this.graphicMotor.updateView(
       this.silberAnlageSimulation.plant.baths,
       this.silberAnlageSimulation.plant.crane
     );
@@ -147,7 +161,7 @@ export class AppComponent implements OnInit {
   }
 
   renderOutput(): string {
-    return (this.renderingOutput = this.graphicMotorAscii.updateView(
+    return (this.renderingOutput = this.graphicMotor.updateView(
       this.silberAnlageSimulation.plant.baths,
       this.silberAnlageSimulation.plant.crane
     ));

@@ -56,3 +56,21 @@ export enum LogImportance {
   Warn,
   Normal,
 }
+
+/**
+ * Enum for output rendering
+ */
+export enum Graphics {
+  /**
+   * ASCII Graphics
+   */
+  ASCII,
+  /**
+   * CSS Graphics
+   */
+  CSS,
+  /**
+   * 3D Graphics
+   */
+  ThreeJS,
+}

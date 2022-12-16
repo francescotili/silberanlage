@@ -6,7 +6,7 @@
 
 // Enums
 import { BathType } from './enums/bath.enums';
-import { LogLevel, Process, Scheduler } from './enums/shared.enums';
+import { Graphics, LogLevel, Process, Scheduler } from './enums/shared.enums';
 
 // Interfaces
 import { AuftragSettings } from './interfaces/auftrag.interfaces';
@@ -54,6 +54,10 @@ export const simulationSettings: SimulationSettings = {
    * Level of logging in Console
    */
   logLevel: LogLevel.Verbose,
+  /**
+   * Graphic motor to use for output
+   */
+  graphics: Graphics.ASCII,
 };
 
 /**
