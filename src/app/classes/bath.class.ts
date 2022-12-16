@@ -4,10 +4,11 @@ import { defaultCraneTimes, standardWorkTimes } from '../settings';
 
 // Enums
 import { BathStatus, BathType } from '../enums/bath.enums';
-import { Priority, Process } from '../enums/shared.enums';
+import { LogImportance, Priority, Process } from '../enums/shared.enums';
 
 // Interfaces
 import { BathSettings } from '../interfaces/baht.interfaces';
+import { Logger } from './logger.class';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +36,7 @@ export class Bath {
     process: Process[];
     baths: number[];
   }[];
+  private logger: Logger;
 
   constructor(number: number, bath: BathSettings) {
     this.id = number;
@@ -57,6 +59,7 @@ export class Bath {
     } else {
       this.drainTime = defaultCraneTimes.drain;
     }
+    this.logger = new Logger();
   }
 
   /**
@@ -68,8 +71,10 @@ export class Bath {
     if (typeof this.remainingTime !== 'undefined') {
       this.remainingTime -= sampleTime;
     } else {
-      console.warn(
-        `[Bath::updateTime] Update for bath ${this.id} requested, but time is undefined!`
+      this.logger.log(
+        'Bath:updateTime',
+        `Update for bath ${this.id} requested, but time is undefined!`,
+        LogImportance.Warn
       );
     }
   }
@@ -109,8 +114,10 @@ export class Bath {
    * @param passedDrum (optional) pass a Drum object to assign to the bath
    */
   public setStatus(status: BathStatus, passedDrum?: Drum) {
-    console.log(
-      `[Bath:setStatus] New status requested for bath ${this.id}: ${BathStatus[status]}`
+    this.logger.log(
+      'Bath:setStatus',
+      `New status requested for bath ${this.id}: ${BathStatus[status]}`,
+      LogImportance.Normal
     );
     this.status = status;
     switch (this.status) {
@@ -131,8 +138,10 @@ export class Bath {
           if (typeof this.drum !== 'undefined') {
             this.remainingTime = 0;
           } else {
-            console.error(
-              `[Bath:setStatus] Bath ${this.id}: was set to WaitingEmpy but there is no drum in bath, nor one was passed!`
+            this.logger.log(
+              'Bath:setStatus',
+              `Bath ${this.id}: was set to WaitingEmpy but there is no drum in bath, nor one was passed!`,
+              LogImportance.Error
             );
           }
         }
@@ -150,14 +159,18 @@ export class Bath {
           if (typeof this.drum === 'undefined') {
             this.drum = passedDrum;
           } else {
-            console.error(
-              `[Bath:setStatus] Conflict detected on Bath ${this.id}: the Drum ${this.drum.number} is already there and you are trying to drop the Drum ${passedDrum.number}!`
+            this.logger.log(
+              'Bath:setStatus',
+              `Conflict detected on Bath ${this.id}: the Drum ${this.drum.number} is already there and you are trying to drop the Drum ${passedDrum.number}!`,
+              LogImportance.Error
             );
           }
         } else {
           if (typeof this.drum === 'undefined') {
-            console.error(
-              `[Bath:setStatus] Bath ${this.id} was set to Working but no Drum was passed or is already present!`
+            this.logger.log(
+              'Bath:setStatus',
+              `Bath ${this.id} was set to Working but no Drum was passed or is already present!`,
+              LogImportance.Error
             );
           }
         }
@@ -187,8 +200,10 @@ export class Bath {
       }
 
       default: {
-        console.error(
-          `[Bath:setStatus] An unhandled bathStatus (${status}) was passed to bath {${this.id}}`
+        this.logger.log(
+          'Bath:setStatus',
+          `An unhandled bathStatus (${status}) was passed to bath ${this.id}`,
+          LogImportance.Error
         );
         break;
       }

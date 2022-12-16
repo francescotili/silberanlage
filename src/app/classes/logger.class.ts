@@ -10,11 +10,9 @@ import { LogImportance, LogLevel } from '../enums/shared.enums';
   providedIn: 'root',
 })
 export class Logger {
-  readonly logLevel: LogLevel;
+  readonly logLevel = LogLevel.Verbose;
 
-  constructor(level: LogLevel) {
-    this.logLevel = level;
-  }
+  constructor() {}
 
   /**
    * This function logs the provided message based on the importance

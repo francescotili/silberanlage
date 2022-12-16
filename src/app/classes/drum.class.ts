@@ -3,6 +3,8 @@ import { Auftrag } from './auftrag.class';
 
 // Enums
 import { DrumStatus } from '../enums/drum.enums';
+import { Logger } from './logger.class';
+import { LogImportance } from '../enums/shared.enums';
 
 /**
  * Class for Drum management
@@ -20,9 +22,11 @@ export class Drum {
   readonly number: number;
   private status: DrumStatus;
   private auftrag: Auftrag | undefined;
+  private logger: Logger;
 
   constructor(number: number) {
     this.number = number;
+    this.logger = new Logger();
   }
 
   /**
@@ -50,8 +54,10 @@ export class Drum {
         this.status = status;
       }
       default: {
-        console.log(
-          `[Drum:setStatus] Drum ${this.number}: wanted an unhandled status!`
+        this.logger.log(
+          'Drum:setStatus',
+          `Drum ${this.number}: wanted an unhandled status!`,
+          LogImportance.Normal
         );
       }
     }

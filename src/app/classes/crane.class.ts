@@ -7,6 +7,8 @@ import { CraneStatus, CraneWorkingPhase } from '../enums/crane.enums';
 
 // Interfaces
 import { CraneOperation } from '../interfaces/crane.interfaces';
+import { Logger } from './logger.class';
+import { LogImportance } from '../enums/shared.enums';
 
 @Injectable({
   providedIn: 'root',
@@ -29,11 +31,13 @@ export class Crane {
   remainingTime: number | undefined;
   phases: CraneOperation[];
   currentPhase: CraneWorkingPhase | undefined;
+  private logger: Logger;
 
   constructor() {
     this.position = plantSettings.craneStartingPosition;
     this.status = CraneStatus.Waiting;
     this.phases = [];
+    this.logger = new Logger();
   }
 
   /**
@@ -69,14 +73,18 @@ export class Crane {
         break;
       }
       case undefined: {
-        console.warn(
-          `[Crane:updatePosition] Was called but Crane status is undefined`
+        this.logger.log(
+          'Crane:updatePosition',
+          'Was called but Crane status is undefined',
+          LogImportance.Warn
         );
         break;
       }
       default: {
-        console.warn(
-          `[Crane:updatePosition] Was called, but the Crane is in an unhandled phase: ${this.getPhase()}`
+        this.logger.log(
+          'Crane:updatePosition',
+          `Was called, but the Crane is in an unhandled phase: ${this.getPhase()}`,
+          LogImportance.Warn
         );
         break;
       }
@@ -92,7 +100,11 @@ export class Crane {
     if (this.phases.length > 0) {
       return this.phases[0].phase;
     } else {
-      console.log(`[Crane:getPhase] The crane phase is undefined`);
+      this.logger.log(
+        'Crane:getPhase',
+        'The crane phase is undefined',
+        LogImportance.Normal
+      );
       return undefined;
     }
   }
@@ -105,8 +117,10 @@ export class Crane {
    * @param phases An Array of CraneOperation to do, required for the status "Working"
    */
   public setStatus(status: CraneStatus, phases?: CraneOperation[]): void {
-    console.log(
-      `[Crane:setStatus] New status requested for the crane: ${CraneStatus[status]}`
+    this.logger.log(
+      'Crane:setStatus',
+      `New status requested for the crane: ${CraneStatus[status]}`,
+      LogImportance.Normal
     );
     this.status = status;
     switch (this.status) {
@@ -120,21 +134,25 @@ export class Crane {
           this.phases = phases;
           this.currentPhase = phases[0].phase;
           this.remainingTime = phases[0].time;
-          console.log(
-            `[Crane:nextPhase] New phase for Crane: ${
-              CraneWorkingPhase[this.phases[0].phase]
-            }`
+          this.logger.log(
+            'Crane:nextPhase',
+            `New phase for Crane: ${CraneWorkingPhase[this.phases[0].phase]}`,
+            LogImportance.Normal
           );
         } else {
-          console.error(
-            `[Crane:setStatus] The crane was set to "Working" but no Operation was passed!`
+          this.logger.log(
+            'Crane:setStatus',
+            'The crane was set to "Working" but no Operation was passed!',
+            LogImportance.Error
           );
         }
         break;
       }
       default: {
-        console.error(
-          `[Crane:setStatus] An unhandled craneStatus (${status}) was passed to the crane`
+        this.logger.log(
+          'Crane:setStatus',
+          `An unhandled craneStatus (${status}) was passed to the crane`,
+          LogImportance.Error
         );
         break;
       }
@@ -147,16 +165,18 @@ export class Crane {
   public nextPhase(): void {
     this.phases.splice(0, 1); // Remove current elapsed operation
     if (this.phases.length > 0) {
-      console.log(
-        `[Crane:nextPhase] New phase for Crane: ${
-          CraneWorkingPhase[this.phases[0].phase]
-        }`
+      this.logger.log(
+        'Crane:nextPhase',
+        `New phase for Crane: ${CraneWorkingPhase[this.phases[0].phase]}`,
+        LogImportance.Normal
       );
       this.currentPhase = this.phases[0].phase;
       this.remainingTime = this.phases[0].time;
     } else {
-      console.log(
-        `[Crane:nextPhase] No new phases, crane operation has been completed`
+      this.logger.log(
+        'Crane:nextPhase',
+        'No new phases, crane operation has been completed',
+        LogImportance.Normal
       );
       this.remainingTime = 0;
       this.setStatus(CraneStatus.Waiting);

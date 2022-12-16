@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Auftrag } from './auftrag.class';
 import { Bath } from './bath.class';
 import { Crane } from './crane.class';
+import { Logger } from './logger.class';
 import { Drum } from './drum.class';
 import { defaultCraneTimes } from '../settings';
 
@@ -15,7 +16,7 @@ import { DrumSettings } from '../interfaces/drum.interfaces';
 import { BathStatus, BathType } from '../enums/bath.enums';
 import { AuftragStatus } from '../enums/auftrag.enums';
 import { CraneStatus, CraneWorkingPhase } from '../enums/crane.enums';
-import { Process, Scheduler } from '../enums/shared.enums';
+import { LogImportance, Process, Scheduler } from '../enums/shared.enums';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +28,7 @@ export class Plant {
   auftrags: Auftrag[];
   drums: Drum[];
   private bathsWaiting: number[];
+  private logger: Logger;
 
   /**
    * This function initialize the plant
@@ -44,6 +46,7 @@ export class Plant {
     auftragsData: AuftragSettings[]
   ) {
     this.name = name;
+    this.logger = new Logger();
 
     this.initializeBaths(bathsInitData);
     this.initializeCrane();
@@ -62,7 +65,7 @@ export class Plant {
       this.baths.push(new Bath(+index, bathsInitData[index]));
     }
     this.bathsWaiting = [];
-    console.log('[Plant:constructor] Baths created');
+    this.logger.log('Plant:constructor', 'Baths created', LogImportance.Normal);
   }
 
   /**
@@ -70,7 +73,11 @@ export class Plant {
    */
   private initializeCrane(): void {
     this.crane = new Crane();
-    console.log('[Plant:constructor] Crane initialized');
+    this.logger.log(
+      'Plant:constructor',
+      'Crane initialized',
+      LogImportance.Normal
+    );
   }
 
   /**
@@ -90,7 +97,7 @@ export class Plant {
         this.assignDrum(this.baths[destinationBath], this.drums[index]);
       }
     }
-    console.log('[Plant:constructor] Drum assigned');
+    this.logger.log('Plant:constructor', 'Drum assigned', LogImportance.Normal);
   }
 
   /**
@@ -103,7 +110,11 @@ export class Plant {
     auftragsData.forEach((auftrag) => {
       this.auftrags.push(new Auftrag(auftrag));
     });
-    console.log('[Plant:constructor] Aufträge loaded');
+    this.logger.log(
+      'Plant:constructor',
+      'Aufträge loaded',
+      LogImportance.Normal
+    );
   }
 
   /**
@@ -148,8 +159,10 @@ export class Plant {
    * @param drum The Drum object to assign
    */
   private assignDrum(bath: Bath, drum: Drum): void {
-    console.log(
-      `[Plant:assignDrum] Drum ${drum.number} assigned to Bath ${bath.id}`
+    this.logger.log(
+      'Plant:assignDrum',
+      `Drum ${drum.number} assigned to Bath ${bath.id}`,
+      LogImportance.Normal
     );
     bath.drum = drum;
     bath.setStatus(BathStatus.WaitingEmpty);
@@ -221,7 +234,11 @@ export class Plant {
    */
   private appendOperation(bathId: number) {
     this.bathsWaiting.push(bathId);
-    console.log(`[Plant:appendOperation] Bath ${bathId} has called the crane`);
+    this.logger.log(
+      'Plant:appendOperation',
+      `Bath ${bathId} has called the crane`,
+      LogImportance.Normal
+    );
   }
 
   /**
@@ -230,10 +247,12 @@ export class Plant {
   private transferDrum(): void {
     if (typeof this.baths[this.crane.position].drum !== 'undefined') {
       // Transfer Drum: Bath -> Crane
-      console.log(
-        `[Plant:updateCrane] Drum ${
-          this.baths[this.crane.position].drum.number
-        } transfer: Bath ${this.crane.position} -> Crane`
+      this.logger.log(
+        'Plant:updateCrane',
+        `Drum ${this.baths[this.crane.position].drum.number} transfer: Bath ${
+          this.crane.position
+        } -> Crane`,
+        LogImportance.Normal
       );
       this.crane.drum = this.baths[this.crane.position].drum;
       this.baths[this.crane.position].setStatus(BathStatus.Free);
@@ -247,8 +266,10 @@ export class Plant {
       }
     } else if (typeof this.crane.drum !== 'undefined') {
       // Transfer Drum: Crane -> Bath
-      console.log(
-        `[Plant:updateCrane] Drum ${this.crane.drum.number} transfer: Crane -> Bath`
+      this.logger.log(
+        'Plant:updateCrane',
+        `Drum ${this.crane.drum.number} transfer: Crane -> Bath`,
+        LogImportance.Normal
       );
       if (typeof this.crane.drum.getAuftrag() !== 'undefined') {
         // The drum is full
@@ -395,7 +416,11 @@ export class Plant {
             });
 
             // Send operation to crane
-            console.log(`[Plant:updateCrane] The crane starts a new operation`);
+            this.logger.log(
+              'Plant:updateCrane',
+              'The crane starts a new operation',
+              LogImportance.Normal
+            );
             this.crane.setStatus(CraneStatus.Working, phases);
             this.bathsWaiting.splice(i, 1);
             break;
@@ -404,8 +429,10 @@ export class Plant {
         break;
       }
       default: {
-        console.error(
-          `[Plant:scheduleOperation] Unhandled Scheduler specified!`
+        this.logger.log(
+          'Plant:scheduleOperation',
+          'Unhandled Scheduler specified!',
+          LogImportance.Error
         );
         break;
       }

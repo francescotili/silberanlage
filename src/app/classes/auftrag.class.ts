@@ -3,11 +3,12 @@ import { Injectable } from '@angular/core';
 // Enums
 import { AuftragStatus } from '../enums/auftrag.enums';
 import { BathType } from '../enums/bath.enums';
-import { Process } from '../enums/shared.enums';
+import { LogImportance, Process } from '../enums/shared.enums';
 
 // Interfaces
 import { AuftragSettings } from '../interfaces/auftrag.interfaces';
 import { WorkTime } from '../interfaces/shared.interfaces';
+import { Logger } from './logger.class';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +29,7 @@ export class Auftrag {
   readonly quantity: number; // Stückzahl
   readonly workTimeOverride: WorkTime[];
   private status: AuftragStatus;
+  private logger: Logger;
 
   constructor(auftrag: AuftragSettings) {
     this.number = auftrag.number;
@@ -42,6 +44,7 @@ export class Auftrag {
     if (typeof auftrag.workTimeOverride !== 'undefined') {
       this.workTimeOverride = auftrag.workTimeOverride;
     }
+    this.logger = new Logger();
   }
 
   /**
@@ -56,8 +59,10 @@ export class Auftrag {
       switch (bathType) {
         case BathType.Copper: {
           // TODO
-          console.warn(
-            '[Auftrag:getWorkTime] Calculation of copper working time not implemented'
+          this.logger.log(
+            'Auftrag:getWorkTime',
+            'Calculation of copper working time not implemented',
+            LogImportance.Normal
           );
           return undefined;
         }
@@ -88,15 +93,19 @@ export class Auftrag {
           }
         case BathType.Parkplatz:
         default: {
-          console.warn(
-            '[Auftrag:getWorkTime] Function called with an unhandled bathType'
+          this.logger.log(
+            'Auftrag:getWorkTime',
+            'Function called with an unhandled bathType',
+            LogImportance.Warn
           );
           return undefined;
         }
       }
     } else {
-      console.warn(
-        '[Auftrag:getWorkTime] Function called with an undefined bathType'
+      this.logger.log(
+        'Auftrag:getWorkTime',
+        'Function called with an undefined bathType',
+        LogImportance.Warn
       );
       return undefined;
     }
@@ -108,8 +117,10 @@ export class Auftrag {
    * @param status The status to which set the Auftrag to
    */
   public setStatus(status: AuftragStatus): void {
-    console.log(
-      `[Auftrag:setStatus] New status for Auftrag ${this.number}: ${AuftragStatus[status]}`
+    this.logger.log(
+      'Auftrag:setStatus',
+      `New status for Auftrag ${this.number}: ${AuftragStatus[status]}`,
+      LogImportance.Normal
     );
     this.status = status;
   }
@@ -120,8 +131,10 @@ export class Auftrag {
    * @returns the status of the Auftrag
    */
   public getStatus(): AuftragStatus {
-    console.log(
-      `[Auftrag:setStatus] Auftrag ${this.number} has status: ${this.status}`
+    this.logger.log(
+      'Auftrag:setStatus',
+      `[Auftrag:setStatus] Auftrag ${this.number} has status: ${this.status}`,
+      LogImportance.Normal
     );
     return this.status;
   }
