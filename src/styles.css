@@ -1,16 +1,12 @@
-h1,
-h2 {
-  font-family: 'Courier New', Courier, monospace;
-  line-height: normal;
-  /*text-align: center;*/
-}
-
 body {
   line-height: 14px;
 }
 
+code {
+  line-height: 14px;
+}
+
 button {
-  font-family: 'Courier New', Courier, monospace;
   font-weight: bold;
   margin-left: 15px;
   display: inline-block;
