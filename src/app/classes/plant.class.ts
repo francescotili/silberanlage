@@ -339,93 +339,7 @@ export class Plant {
   private scheduleOperation(scheduler: Scheduler): void {
     switch (scheduler) {
       case Scheduler.FCFS: {
-        // FIFS First In First Served Logic
-
-        // Find a free destination bath
-        let originBath: Bath;
-        let destinationBath: Bath;
-        for (let i = 0; i < this.bathsWaiting.length; i++) {
-          // Determine origin and destination bath
-          originBath = this.baths[this.bathsWaiting[i]];
-          destinationBath = this.findDestinationBath(originBath);
-          if (typeof destinationBath !== 'undefined') {
-            // Found a destination bath that is free
-
-            // Initialize operation's phases data
-            let phases: CraneOperation[] = [];
-
-            // Time to move from current crane position to origin position
-            let tempTime = this.crane.calculateMovingTime(
-              this.crane.position - originBath.id
-            );
-            if (tempTime > 0) {
-              phases.push({
-                origin: this.crane.position,
-                destination: originBath.id,
-                phase: CraneWorkingPhase.Moving,
-                time: tempTime,
-                transferDrum: false,
-              });
-            }
-
-            // Time to drain
-            if (typeof originBath.drainTime !== 'undefined') {
-              phases.push({
-                origin: originBath.id,
-                phase: CraneWorkingPhase.Draining,
-                time: originBath.drainTime,
-                transferDrum: true,
-              });
-            } else {
-              phases.push({
-                origin: originBath.id,
-                phase: CraneWorkingPhase.Draining,
-                time: defaultCraneTimes.drain,
-                transferDrum: true,
-              });
-            }
-
-            // Time to pickup
-            phases.push({
-              origin: originBath.id,
-              phase: CraneWorkingPhase.Picking,
-              time: defaultCraneTimes.pick,
-              transferDrum: false,
-            });
-
-            // Time to move from origin to destination position
-            tempTime = this.crane.calculateMovingTime(
-              originBath.id - destinationBath.id
-            );
-            if (tempTime > 0) {
-              phases.push({
-                origin: originBath.id,
-                destination: destinationBath.id,
-                phase: CraneWorkingPhase.Moving,
-                time: tempTime,
-                transferDrum: false,
-              });
-            }
-
-            // Time to drop
-            phases.push({
-              origin: destinationBath.id,
-              phase: CraneWorkingPhase.Dropping,
-              time: defaultCraneTimes.drop,
-              transferDrum: true,
-            });
-
-            // Send operation to crane
-            this.logger.log(
-              'Plant:updateCrane',
-              'The crane starts a new operation',
-              LogImportance.Normal
-            );
-            this.crane.setStatus(CraneStatus.Working, phases);
-            this.bathsWaiting.splice(i, 1);
-            break;
-          }
-        }
+        this.scheduleFCFS();
         break;
       }
       default: {
@@ -434,6 +348,100 @@ export class Plant {
           'Unhandled Scheduler specified!',
           LogImportance.Error
         );
+        break;
+      }
+    }
+  }
+
+  /**
+   * This is the FCFS Scheduler, First Come First Serve
+   * The Crane will serve the oldest operation in the list, if it is possibile
+   * to do it. FIFO Logic.
+   */
+  private scheduleFCFS(): void {
+    let originBath: Bath;
+    let destinationBath: Bath;
+
+    // Find a free destination bath
+    for (let i = 0; i < this.bathsWaiting.length; i++) {
+      // Determine origin and destination bath
+      originBath = this.baths[this.bathsWaiting[i]];
+      destinationBath = this.findDestinationBath(originBath);
+
+      if (typeof destinationBath !== 'undefined') {
+        // Found a destination bath that is free
+
+        let phases: CraneOperation[] = [];
+
+        // Push time to move from current crane position to origin position
+        let tempTime = this.crane.calculateMovingTime(
+          this.crane.position - originBath.id
+        );
+        if (tempTime > 0) {
+          phases.push({
+            origin: this.crane.position,
+            destination: originBath.id,
+            phase: CraneWorkingPhase.Moving,
+            time: tempTime,
+            transferDrum: false,
+          });
+        }
+
+        // Push time to drain
+        if (typeof originBath.drainTime !== 'undefined') {
+          phases.push({
+            origin: originBath.id,
+            phase: CraneWorkingPhase.Draining,
+            time: originBath.drainTime,
+            transferDrum: true,
+          });
+        } else {
+          phases.push({
+            origin: originBath.id,
+            phase: CraneWorkingPhase.Draining,
+            time: defaultCraneTimes.drain,
+            transferDrum: true,
+          });
+        }
+
+        // Push time to pickup
+        phases.push({
+          origin: originBath.id,
+          phase: CraneWorkingPhase.Picking,
+          time: defaultCraneTimes.pick,
+          transferDrum: false,
+        });
+
+        // Push time to move from origin to destination position
+        tempTime = this.crane.calculateMovingTime(
+          originBath.id - destinationBath.id
+        );
+        if (tempTime > 0) {
+          phases.push({
+            origin: originBath.id,
+            destination: destinationBath.id,
+            phase: CraneWorkingPhase.Moving,
+            time: tempTime,
+            transferDrum: false,
+          });
+        }
+
+        // Push time to drop
+        phases.push({
+          origin: destinationBath.id,
+          phase: CraneWorkingPhase.Dropping,
+          time: defaultCraneTimes.drop,
+          transferDrum: true,
+        });
+
+        // Send operation to crane
+        this.logger.log(
+          'Plant:updateCrane',
+          'The crane starts a new operation',
+          LogImportance.Normal
+        );
+        this.crane.setStatus(CraneStatus.Working, phases);
+        this.bathsWaiting.splice(i, 1);
         break;
       }
     }
