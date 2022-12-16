@@ -6,7 +6,7 @@
 
 // Enums
 import { BathType } from './enums/bath.enums';
-import { Process } from './enums/shared.enums';
+import { LogLevel, Process } from './enums/shared.enums';
 
 // Interfaces
 import { AuftragSettings } from './interfaces/auftrag.interfaces';
@@ -34,18 +34,22 @@ export const simulationSettings: SimulationSettings = {
    * Speed of the simulation -
    * 1 is realtime, 10 is 10X and so on
    */
-  speed: 50,
+  speed: 200,
   /**
    * Max duration of the simulation, in seconds -
-   * 8 hours = 28.800 seconds
+   * 16 hours = 57.600 seconds
    */
-  maxTime: 28800,
+  maxTime: 57600,
   /**
    * The step for the simulation to simulate and scan all the
    * components of the plant (baths, drums, crane, etc...). Enter
    * a time in seconds
    */
   sampleTime: 1,
+  /**
+   * Level of logging in Console
+   */
+  logLevel: LogLevel.Verbose,
 };
 
 /**
@@ -574,5 +578,28 @@ export const aufragToWork: AuftragSettings[] = [
     process: Process.Silver,
     silverAmount: 5.983,
     quantity: 30000,
+  },
+  {
+    number: '17150914',
+    material: '276.466.011',
+    process: Process.Copper,
+    copperAmount: 5, // Is it not specified on the Auftrag
+    silverAmount: 10,
+    quantity: 5000,
+  },
+  {
+    number: '17150914',
+    material: '276.466.011',
+    process: Process.Copper,
+    copperAmount: 5, // Is it not specified on the Auftrag
+    silverAmount: 10,
+    quantity: 5000,
+  },
+  {
+    number: '17179901',
+    material: '279.038.073',
+    process: Process.Silver,
+    silverAmount: 2.531,
+    quantity: 20000,
   },
 ];

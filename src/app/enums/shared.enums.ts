@@ -39,3 +39,20 @@ export enum SimulationStatus {
   Paused,
   Ready,
 }
+
+/**
+ * Enum for the log levels
+ */
+export enum LogLevel {
+  Verbose,
+  Standard,
+}
+
+/**
+ * Enum for log importance
+ */
+export enum LogImportance {
+  Error,
+  Warn,
+  Normal,
+}
