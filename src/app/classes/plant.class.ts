@@ -45,12 +45,8 @@ export class Plant {
   ) {
     this.name = name;
 
-    // Initialize baths
     this.initializeBaths(bathsInitData);
-
-    // Initialize Crane
-    this.crane = new Crane();
-    console.log('[Plant:constructor] Crane initialized');
+    this.initializeCrane();
 
     // Intialize Drums
     this.drums = [];
@@ -86,6 +82,14 @@ export class Plant {
     }
     this.bathsWaiting = [];
     console.log('[Plant:constructor] Baths created');
+  }
+
+  /**
+   * This function initialize the crane
+   */
+  private initializeCrane(): void {
+    this.crane = new Crane();
+    console.log('[Plant:constructor] Crane initialized');
   }
 
   /**
