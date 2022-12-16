@@ -171,7 +171,6 @@ export class Plant {
           // If time has reached 0, set the bath to WaitingFull and call the Crane
           if (bath.getTime() <= 0) {
             bath.setStatus(BathStatus.WaitingFull);
-
             this.appendOperation(bath.id);
           }
           break;
@@ -194,8 +193,9 @@ export class Plant {
                 break;
               }
               default: {
-                // The bath is not a LoadingStation, then append operation to Crane
-                // maybe we can move the empty drum forward toward the loadingStation
+                // The bath is not a LoadingStation, but has an empty drum
+                // We can append operation to Crane, so maybe we can move
+                // the empty drum forward toward the loadingStation
                 this.appendOperation(bath.id);
                 bath.setStatus(BathStatus.WaitingCrane);
                 break;
