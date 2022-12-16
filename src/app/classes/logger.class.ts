@@ -25,16 +25,16 @@ export class Logger {
     switch (importance) {
       case LogImportance.Normal: {
         if (this.logLevel === LogLevel.Verbose) {
-          console.log(`[${caller}] ${message}`);
+          console.info(`%c${caller}`, 'font-style:italic;color:grey', message);
         }
         break;
       }
       case LogImportance.Warn: {
-        console.warn(`[${caller}] ${message}`);
+        console.warn(`${caller} | ${message}`);
         break;
       }
       case LogImportance.Error: {
-        console.error(`[${caller}] ${message}`);
+        console.error(`${caller} | ${message}`);
       }
     }
   }
