@@ -47,20 +47,7 @@ export class Plant {
 
     this.initializeBaths(bathsInitData);
     this.initializeCrane();
-
-    // Intialize Drums
-    this.drums = [];
-    for (var index in drumsInitData) {
-      this.drums.push(new Drum(drumsInitData[index].number));
-    }
-    for (var index in this.drums) {
-      let destinationBath: number | undefined;
-      destinationBath = this.searchBathForDrum();
-      if (typeof destinationBath !== 'undefined') {
-        this.assignDrum(this.baths[destinationBath], this.drums[index]);
-      }
-    }
-    console.log('[Plant:constructor] Drum assigned');
+    this.initializeDrums(drumsInitData);
 
     // Load Auftrags
     this.auftrags = [];
@@ -90,6 +77,26 @@ export class Plant {
   private initializeCrane(): void {
     this.crane = new Crane();
     console.log('[Plant:constructor] Crane initialized');
+  }
+
+  /**
+   * This function initialize the drums with the provided initDatas
+   *
+   * @param drumsInitData Object with all the settings for the drums initialization
+   */
+  private initializeDrums(drumsInitData: DrumSettings[]): void {
+    this.drums = [];
+    for (var index in drumsInitData) {
+      this.drums.push(new Drum(drumsInitData[index].number));
+    }
+    for (var index in this.drums) {
+      let destinationBath: number | undefined;
+      destinationBath = this.searchBathForDrum();
+      if (typeof destinationBath !== 'undefined') {
+        this.assignDrum(this.baths[destinationBath], this.drums[index]);
+      }
+    }
+    console.log('[Plant:constructor] Drum assigned');
   }
 
   /**
