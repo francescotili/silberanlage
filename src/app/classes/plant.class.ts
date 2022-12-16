@@ -357,6 +357,9 @@ export class Plant {
    * This is the FCFS Scheduler, First Come First Serve
    * The Crane will serve the oldest operation in the list, if it is possibile
    * to do it. FIFO Logic.
+   *
+   * Basically scans the baths waiting and decide which operation to send at the crane
+   * to do
    */
   private scheduleFCFS(): void {
     let originBath: Bath;
