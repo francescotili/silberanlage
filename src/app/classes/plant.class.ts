@@ -48,13 +48,7 @@ export class Plant {
     this.initializeBaths(bathsInitData);
     this.initializeCrane();
     this.initializeDrums(drumsInitData);
-
-    // Load Auftrags
-    this.auftrags = [];
-    auftragsData.forEach((auftrag) => {
-      this.auftrags.push(new Auftrag(auftrag));
-    });
-    console.log('[Plant:constructor] Aufträge loaded');
+    this.loadAuftrags(auftragsData);
   }
 
   /**
@@ -97,6 +91,19 @@ export class Plant {
       }
     }
     console.log('[Plant:constructor] Drum assigned');
+  }
+
+  /**
+   * This function loads the Auftrags to workout
+   *
+   * @param auftragsData Auftrag data to load
+   */
+  private loadAuftrags(auftragsData: AuftragSettings[]): void {
+    this.auftrags = [];
+    auftragsData.forEach((auftrag) => {
+      this.auftrags.push(new Auftrag(auftrag));
+    });
+    console.log('[Plant:constructor] Aufträge loaded');
   }
 
   /**
