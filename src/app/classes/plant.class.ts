@@ -27,6 +27,7 @@ export class Plant {
   crane: Crane;
   auftrags: Auftrag[];
   drums: Drum[];
+  completedAuftrags: Auftrag[];
   private bathsWaiting: number[];
   private logger: Logger;
 
@@ -47,6 +48,7 @@ export class Plant {
   ) {
     this.name = name;
     this.logger = new Logger();
+    this.completedAuftrags = [];
 
     this.initializeBaths(bathsInitData);
     this.initializeCrane();
@@ -215,10 +217,22 @@ export class Plant {
               }
             }
           }
+          break;
         }
 
-        case BathStatus.WaitingCrane:
+        case BathStatus.WaitingToUnload: {
+          // Bath is unloading with a full Drum, update time
+          bath.updateTime(sampleTime);
+
+          // Unloading completed, reset the drum and Auftrag
+          if (bath.type === BathType.LoadingStation && bath.getTime() <= 0) {
+            this.completeAuftrag(bath.id);
+          }
+          break;
+        }
+
         case BathStatus.WaitingFull:
+        case BathStatus.WaitingCrane:
         case BathStatus.Free:
         default: {
           break;
@@ -239,6 +253,46 @@ export class Plant {
       `Bath ${bathId} has called the crane`,
       LogImportance.Normal
     );
+  }
+
+  /** This function unload the parts from the bath
+   *
+   * @param bathId The bath number where the full drum is waiting to be unloaded
+   */
+  private completeAuftrag(bathId: number) {
+    if (this.baths[bathId].type !== BathType.LoadingStation) {
+      this.logger.log(
+        'Plant:completeAuftrag',
+        `You are trying to unload parts from Bath ${bathId}, but it is not a LoadingStation`,
+        LogImportance.Warn
+      );
+      return;
+    }
+    if (typeof this.baths[bathId].drum === 'undefined') {
+      this.logger.log(
+        'Plant:completeAuftrag',
+        `You are trying to unload parts from Bath ${bathId}, but it has no drums!`,
+        LogImportance.Error
+      );
+      return;
+    }
+    if (typeof this.baths[bathId].drum.getAuftrag() === 'undefined') {
+      this.logger.log(
+        'Plant:completeAuftrag',
+        `You are trying to unload parts from Bath ${bathId}, but the drum is not full!`,
+        LogImportance.Error
+      );
+      return;
+    }
+
+    this.completedAuftrags.push(this.baths[bathId].drum.getAuftrag());
+    console.log(
+      '%cAUFTRAG COMPLETED',
+      'background-color:green; color:white; padding:8px;border-radius:8px;',
+      this.baths[bathId].drum.getAuftrag().number
+    );
+    this.baths[bathId].drum.unloadParts();
+    this.baths[bathId].setStatus(BathStatus.WaitingEmpty);
   }
 
   /**
@@ -273,18 +327,36 @@ export class Plant {
       );
       if (typeof this.crane.drum.getAuftrag() !== 'undefined') {
         // The drum is full
-        this.baths[this.crane.position].setStatus(
-          BathStatus.Working,
-          this.crane.drum
-        );
-        this.auftrags.forEach((auftrag) => {
-          if (
-            auftrag.number ===
-            this.baths[this.crane.position].drum.getAuftrag().number
-          ) {
-            auftrag.setStatus(AuftragStatus.Working);
-          }
-        });
+        if (this.baths[this.crane.position].type === BathType.LoadingStation) {
+          // We are dropping a full drum to the loading station, it needs to be unloaded
+          this.baths[this.crane.position].setStatus(
+            BathStatus.WaitingToUnload,
+            this.crane.drum
+          );
+          this.auftrags.forEach((auftrag) => {
+            if (
+              auftrag.number ===
+              this.baths[this.crane.position].drum.getAuftrag().number
+            ) {
+              auftrag.setStatus(AuftragStatus.Completed);
+            }
+          });
+        } else {
+          // We are dropping a full drum to a working bath
+          this.baths[this.crane.position].setStatus(
+            BathStatus.Working,
+            this.crane.drum
+          );
+          this.auftrags.forEach((auftrag) => {
+            if (
+              auftrag.number ===
+              this.baths[this.crane.position].drum.getAuftrag().number
+            ) {
+              auftrag.setStatus(AuftragStatus.Working);
+            }
+          });
+        }
+
         this.crane.drum = undefined;
       } else {
         // The drum is empty

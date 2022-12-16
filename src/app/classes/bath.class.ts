@@ -134,7 +134,7 @@ export class Bath {
           this.drum = passedDrum;
           this.remainingTime = 5; // To give enough time to the crane, to make something else
         } else {
-          // No Drum passed, maybe it was assigned at the initialization phase
+          // No Drum passed, maybe it was assigned at the initialization phase or it has been unloaded
           if (typeof this.drum !== 'undefined') {
             this.remainingTime = 0;
           } else {
@@ -150,6 +150,74 @@ export class Bath {
 
       case BathStatus.WaitingFull: {
         this.remainingTime = 0;
+        break;
+      }
+
+      case BathStatus.WaitingToUnload: {
+        if (typeof passedDrum !== 'undefined') {
+          // A full completed drum has been dropped on bath
+          if (typeof this.drum === 'undefined') {
+            this.drum = passedDrum;
+          } else {
+            this.logger.log(
+              'Bath:setStatus',
+              `Conflict detected on Bath ${this.id}: the Drum ${this.drum.number} is already there and you are trying to drop the Drum ${passedDrum.number}!`,
+              LogImportance.Error
+            );
+            if (typeof this.drum.getAuftrag() !== 'undefined') {
+              // Drum is full
+              if (
+                typeof this.drum.getAuftrag().getWorkTime(this.type) !==
+                'undefined'
+              ) {
+                // This phase has a custom workTime specified in the Auftrag
+                this.remainingTime = this.drum
+                  .getAuftrag()
+                  .getWorkTime(this.type);
+              } else {
+                // Load default workTime for this Bath
+                this.remainingTime = this.findStdWorkTime(this.type);
+              }
+            } else {
+              // Drum is empty
+              this.logger.log(
+                'Bath:setStatus',
+                `Bath ${this.id}: you are trying to unload, but the dropped drum is empty!`,
+                LogImportance.Error
+              );
+            }
+          }
+        } else {
+          if (typeof this.drum === 'undefined') {
+            this.logger.log(
+              'Bath:setStatus',
+              `Bath ${this.id} was set to WaitingToUnload but no Drum was passed or is already present!`,
+              LogImportance.Error
+            );
+          }
+        }
+        // Set working time
+        if (typeof this.drum !== 'undefined') {
+          if (typeof this.drum.getAuftrag() !== 'undefined') {
+            // Drum is full
+            if (
+              typeof this.drum.getAuftrag().getWorkTime(this.type) !==
+              'undefined'
+            ) {
+              // This phase has a custom workTime specified in the Auftrag
+              this.remainingTime = this.drum
+                .getAuftrag()
+                .getWorkTime(this.type);
+            } else {
+              // Load default workTime for this Bath
+              this.remainingTime = this.findStdWorkTime(this.type);
+            }
+          } else {
+            // Drum is empty, leave it for 20 second just to make sure the Crane
+            // has time to make other operations
+            this.remainingTime = 20;
+          }
+        }
         break;
       }
 

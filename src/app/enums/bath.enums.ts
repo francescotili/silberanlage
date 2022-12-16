@@ -25,4 +25,6 @@ export enum BathStatus {
   WaitingCrane,
   /** Bath has a full drum and it's working */
   Working,
+  /** Bath has a full drum, completed, and it´s waiting to unload */
+  WaitingToUnload,
 }
