@@ -36,8 +36,6 @@ export class Plant {
    * @param bathsInitData A BathSettings object that specifies how to initialize the baths
    * @param drumsInitData A DrumSettings object that specifies how to initialize the drums
    * @param auftragsData An AuftragSettings object that list the Auftrags to load
-   *
-   * TODO drumsInitData should be a parameter, not a costant
    */
   constructor(
     name: string,
@@ -48,12 +46,7 @@ export class Plant {
     this.name = name;
 
     // Initialize baths
-    this.baths = [];
-    for (var index in bathsInitData) {
-      this.baths.push(new Bath(+index, bathsInitData[index]));
-    }
-    this.bathsWaiting = [];
-    console.log('[Plant:constructor] Baths created');
+    this.initializeBaths(bathsInitData);
 
     // Initialize Crane
     this.crane = new Crane();
@@ -79,6 +72,20 @@ export class Plant {
       this.auftrags.push(new Auftrag(auftrag));
     });
     console.log('[Plant:constructor] Aufträge loaded');
+  }
+
+  /**
+   * This function initialize baths with the provided initDatas
+   *
+   * @param bathsInitData Object with all the setting for the bath initialization
+   */
+  private initializeBaths(bathsInitData: BathSettings[]): void {
+    this.baths = [];
+    for (var index in bathsInitData) {
+      this.baths.push(new Bath(+index, bathsInitData[index]));
+    }
+    this.bathsWaiting = [];
+    console.log('[Plant:constructor] Baths created');
   }
 
   /**
