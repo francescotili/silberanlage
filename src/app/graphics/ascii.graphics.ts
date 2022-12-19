@@ -62,7 +62,7 @@ export class AsciiGraphics {
     white2: 2, // Whitespace
     crane: 3, // Width of crane visualization
     white3: 5, // Whitespace
-    time: 8, // Time visualization
+    time: 6, // Time visualization
     sep3: 3, // Separator
     auftrag: 8, // Auftrag visualization
     sep4: 3, // Separator
@@ -117,7 +117,8 @@ export class AsciiGraphics {
     this.renderedOutput += this.graphics.time.label;
     for (
       var i = 0;
-      i < this.lengths.time - this.graphics.time.label.length;
+      i <
+      this.lengths.time - this.graphics.time.label.length + this.lengths.sep3;
       i++
     ) {
       this.renderedOutput += this.graphics.whitespace;
@@ -166,6 +167,9 @@ export class AsciiGraphics {
       }
     }
     for (var i = 0; i < this.lengths.time; i++) {
+      this.renderedOutput += this.graphics.whitespace;
+    }
+    for (var i = 0; i < this.lengths.sep3; i++) {
       this.renderedOutput += this.graphics.whitespace;
     }
     // Auftrag
@@ -261,7 +265,7 @@ export class AsciiGraphics {
         this.renderedOutput += timeRemaining;
         for (
           var i = 0;
-          i < this.lengths.time - timeRemaining.toString.length;
+          i < this.lengths.time - timeRemaining.toString().length;
           i++
         ) {
           this.renderedOutput += this.graphics.whitespace;
@@ -270,6 +274,9 @@ export class AsciiGraphics {
         for (var i = 0; i < this.lengths.time; i++) {
           this.renderedOutput += this.graphics.whitespace;
         }
+      }
+      for (var i = 0; i < this.lengths.sep4; i++) {
+        this.renderedOutput += this.graphics.whitespace;
       }
       // Auftrag
       if (typeof baths[bathID].drum !== 'undefined') {
@@ -282,6 +289,10 @@ export class AsciiGraphics {
               baths[bathID].drum.getAuftrag().number.length;
             i++
           ) {
+            this.renderedOutput += this.graphics.whitespace;
+          }
+        } else {
+          for (var i = 0; i < this.lengths.auftrag; i++) {
             this.renderedOutput += this.graphics.whitespace;
           }
         }
@@ -332,14 +343,11 @@ export class AsciiGraphics {
         }
       }
       // Time
-      for (var i = 0; i < this.lengths.time; i++) {
+      for (var i = 0; i < this.lengths.time + this.lengths.sep3; i++) {
         this.renderedOutput += this.graphics.whitespace;
       }
       // Auftrag
-      for (var i = 0; i < this.lengths.auftrag; i++) {
-        this.renderedOutput += this.graphics.whitespace;
-      }
-      for (var i = 0; i < this.lengths.sep4; i++) {
+      for (var i = 0; i < this.lengths.auftrag + this.lengths.sep4; i++) {
         this.renderedOutput += this.graphics.whitespace;
       }
       this.renderedOutput += this.graphics.eol;
