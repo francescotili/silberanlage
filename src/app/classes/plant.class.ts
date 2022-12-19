@@ -28,6 +28,7 @@ export class Plant {
   auftrags: Auftrag[];
   drums: Drum[];
   completedAuftrags: Auftrag[];
+  simulationTime: number;
   private bathsWaiting: number[];
   private logger: Logger;
 
@@ -49,6 +50,7 @@ export class Plant {
     this.name = name;
     this.logger = new Logger();
     this.completedAuftrags = [];
+    this.simulationTime = 0;
 
     this.initializeBaths(bathsInitData);
     this.initializeCrane();
@@ -177,6 +179,9 @@ export class Plant {
    * @param sampleTime The sample time of the simulation
    */
   public updateBaths(sampleTime: number): void {
+    // Update simulation time
+    this.simulationTime += sampleTime;
+
     this.baths.forEach((bath) => {
       switch (bath.getStatus()) {
         case BathStatus.Working: {

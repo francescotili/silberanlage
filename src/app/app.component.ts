@@ -135,10 +135,12 @@ export class AppComponent implements OnInit {
   }
 
   getSimulationTime(): string {
-    let globalSeconds =
-      typeof this.silberAnlageSimulation.time !== 'undefined'
-        ? this.silberAnlageSimulation.time
-        : 0;
+    let globalSeconds: number = 0;
+    if (typeof this.silberAnlageSimulation !== 'undefined') {
+      if (typeof this.silberAnlageSimulation.time !== 'undefined') {
+        globalSeconds = this.silberAnlageSimulation.time;
+      }
+    }
 
     const view_hours: number = Math.floor(globalSeconds / 3600);
     const view_minutes: number = Math.floor(
