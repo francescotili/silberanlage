@@ -291,9 +291,8 @@ export class Plant {
     }
 
     this.completedAuftrags.push(this.baths[bathId].drum.getAuftrag());
-    console.log(
-      '%cAUFTRAG COMPLETED',
-      'background-color:green; color:white; padding:8px;border-radius:8px;',
+    this.logger.auftrag(
+      this.simulationTime,
       this.baths[bathId].drum.getAuftrag().number
     );
     this.baths[bathId].drum.unloadParts();

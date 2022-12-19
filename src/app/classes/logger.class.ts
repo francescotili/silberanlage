@@ -39,4 +39,13 @@ export class Logger {
       }
     }
   }
+
+  public auftrag(time: number, message: string): void {
+    console.log(
+      '%cAUFTRAG COMPLETED',
+      'background-color:green; color:white; padding:8px;border-radius:8px;',
+      time,
+      message
+    );
+  }
 }
