@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Plant } from './classes/plant.class';
 import { Simulation } from './classes/simulation.class';
-import { Graphics } from './enums/shared.enums';
-import { AsciiGraphics } from './graphics/ascii.graphics';
 import {
   aufragToWork,
   bathsInitData,
   drumsInitData,
   simulationSettings,
 } from './settings';
+
+// Enums
+import { Graphics } from './enums/shared.enums';
+
+// Graphic morots
+import { AsciiGraphics } from './graphics/ascii.graphics';
 
 @Component({
   selector: 'my-app',
@@ -19,7 +23,6 @@ export class AppComponent implements OnInit {
   silberAnlage: Plant;
   silberAnlageSimulation: Simulation;
 
-  //graphicMotorAscii: AsciiGraphics;
   graphicMotor: AsciiGraphics; // | CSSGraphics | ThreeJSGraphics
   renderingOutput: string;
 
