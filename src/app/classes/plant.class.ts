@@ -31,6 +31,7 @@ export class Plant {
   simulationTime: number;
   private bathsWaiting: number[];
   private logger: Logger;
+  craneTotalDistance: number;
 
   /**
    * This function initialize the plant
@@ -51,6 +52,7 @@ export class Plant {
     this.logger = new Logger();
     this.completedAuftrags = [];
     this.simulationTime = 0;
+    this.craneTotalDistance = 0;
 
     this.initializeBaths(bathsInitData);
     this.initializeCrane();
@@ -453,6 +455,9 @@ export class Plant {
             time: tempTime,
             transferDrum: false,
           });
+          this.craneTotalDistance += Math.abs(
+            originBath.id - this.crane.position
+          );
         }
 
         // Push time to drain
@@ -492,6 +497,9 @@ export class Plant {
             time: tempTime,
             transferDrum: false,
           });
+          this.craneTotalDistance += Math.abs(
+            destinationBath.id - originBath.id
+          );
         }
 
         // Push time to drop
