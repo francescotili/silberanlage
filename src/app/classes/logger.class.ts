@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LogImportance, LogLevel } from '../enums/shared.enums';
+import { simulationSettings } from '../settings';
 
 /**
  * Class for log Managemen
@@ -10,7 +11,7 @@ import { LogImportance, LogLevel } from '../enums/shared.enums';
   providedIn: 'root',
 })
 export class Logger {
-  readonly logLevel = LogLevel.Verbose;
+  readonly logLevel = simulationSettings.logLevel;
 
   constructor() {}
 
