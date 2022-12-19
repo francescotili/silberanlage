@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LogImportance, LogLevel } from '../enums/shared.enums';
+import { TimeOutputPipe } from '../pipes/timeOutput.pipe';
 import { simulationSettings } from '../settings';
 
 /**
@@ -12,8 +13,11 @@ import { simulationSettings } from '../settings';
 })
 export class Logger {
   readonly logLevel = simulationSettings.logLevel;
+  private timeOutputPipe: TimeOutputPipe;
 
-  constructor() {}
+  constructor() {
+    this.timeOutputPipe = new TimeOutputPipe();
+  }
 
   /**
    * This function logs the provided message based on the importance
@@ -44,7 +48,7 @@ export class Logger {
     console.log(
       '%cAUFTRAG COMPLETED',
       'background-color:green; color:white; padding:8px;border-radius:8px;',
-      time,
+      this.timeOutputPipe.transform(time),
       message
     );
   }

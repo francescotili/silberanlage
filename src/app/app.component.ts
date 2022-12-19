@@ -134,35 +134,13 @@ export class AppComponent implements OnInit {
     );
   }
 
-  getSimulationTime(): string {
-    let globalSeconds: number = 0;
+  getSimulationTime(): number {
     if (typeof this.silberAnlageSimulation !== 'undefined') {
       if (typeof this.silberAnlageSimulation.time !== 'undefined') {
-        globalSeconds = this.silberAnlageSimulation.time;
+        return this.silberAnlageSimulation.time;
       }
     }
-
-    const view_hours: number = Math.floor(globalSeconds / 3600);
-    const view_minutes: number = Math.floor(
-      (globalSeconds / 3600 - view_hours) * 60
-    );
-    const view_seconds: number = Math.floor(
-      ((globalSeconds / 3600 - view_hours) * 60 - view_minutes) * 60
-    );
-
-    let output = '';
-
-    view_hours < 10 ? (output += '0' + view_hours) : (output += view_hours);
-    output += ':';
-    view_minutes < 10
-      ? (output += '0' + view_minutes)
-      : (output += view_minutes);
-    output += ':';
-    view_seconds < 10
-      ? (output += '0' + view_seconds)
-      : (output += view_seconds);
-
-    return output;
+    return 0;
   }
 
   renderOutput(): string {

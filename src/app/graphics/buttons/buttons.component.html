@@ -16,7 +16,7 @@
     <span class="material-symbols-rounded"> pause </span>
   </li>
   <li class="time">
-    <span>{{ time }}</span>
+    <span>{{ time | timeOutput }}</span>
   </li>
   <li class="icon reset" *ngIf="this.viewBtn.reset" (click)="simulationReset()">
     <span class="tooltip">Reset</span>

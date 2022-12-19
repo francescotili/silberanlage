@@ -12,7 +12,7 @@ export class SimulationButtonsComponent {
     reset: boolean;
     resume: boolean;
   };
-  @Input() time: string;
+  @Input() time: number;
   @Output() clickStart = new EventEmitter<string>();
   @Output() clickPause = new EventEmitter<string>();
   @Output() clickResume = new EventEmitter<string>();
