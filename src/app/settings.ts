@@ -45,7 +45,7 @@ export const simulationSettings: SimulationSettings = {
    * components of the plant (baths, drums, crane, etc...). Enter
    * a time in seconds
    */
-  sampleTime: 1,
+  sampleTime: 2,
   /**
    * Type of Scheduler to use for the crane
    */
@@ -703,5 +703,78 @@ export const aufragToWork: AuftragSettings[] = [
     process: Process.Silver,
     silverAmount: 5.983,
     quantity: 30000,
+  },
+  {
+    number: '16473789',
+    material: '279.124.011',
+    process: Process.Silver,
+    silverAmount: 5.983,
+    quantity: 30000,
+  },
+  {
+    number: '16473799',
+    material: '257.024.101',
+    process: Process.Silver,
+    silverAmount: 17.345,
+    quantity: 18000,
+  },
+  {
+    number: '16473799',
+    material: '257.024.101',
+    process: Process.Silver,
+    silverAmount: 17.345,
+    quantity: 18000,
+  },
+  {
+    number: '17150914',
+    material: '276.466.011',
+    process: Process.Copper,
+    copperAmount: 5, // Is it not specified on the Auftrag
+    silverAmount: 10,
+    quantity: 5000,
+  },
+  {
+    number: '16473799',
+    material: '257.024.101',
+    process: Process.Silver,
+    silverAmount: 17.345,
+    quantity: 18000,
+  },
+  {
+    number: '17150914',
+    material: '276.466.011',
+    process: Process.Copper,
+    copperAmount: 5, // Is it not specified on the Auftrag
+    silverAmount: 10,
+    quantity: 5000,
+  },
+  {
+    number: '16473799',
+    material: '257.024.101',
+    process: Process.Silver,
+    silverAmount: 17.345,
+    quantity: 18000,
+  },
+  {
+    number: '16473799',
+    material: '257.024.101',
+    process: Process.Silver,
+    silverAmount: 17.345,
+    quantity: 18000,
+  },
+  {
+    number: '16473789',
+    material: '279.124.011',
+    process: Process.Silver,
+    silverAmount: 5.983,
+    quantity: 30000,
+  },
+  {
+    number: '17150914',
+    material: '276.466.011',
+    process: Process.Copper,
+    copperAmount: 5, // Is it not specified on the Auftrag
+    silverAmount: 10,
+    quantity: 5000,
   },
 ];
