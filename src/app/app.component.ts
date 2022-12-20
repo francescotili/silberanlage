@@ -117,6 +117,7 @@ export class AppComponent implements OnInit {
       reset: false,
       resume: false,
     };
+    console.clear();
 
     this.silberAnlage = undefined;
     this.silberAnlageSimulation = undefined;
