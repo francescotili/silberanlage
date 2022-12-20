@@ -285,7 +285,7 @@ export const bathsInitData: BathSettings[] = [
     next: [
       {
         process: [Process.Copper],
-        baths: [14],
+        baths: [14, 15],
       },
       {
         process: [Process.Silver, Process.Rework],
@@ -361,7 +361,7 @@ export const bathsInitData: BathSettings[] = [
     next: [
       {
         process: [Process.Copper],
-        baths: [20],
+        baths: [20, 21],
       },
       {
         process: [Process.PlantFilling],

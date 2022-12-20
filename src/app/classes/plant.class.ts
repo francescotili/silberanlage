@@ -557,7 +557,11 @@ export class Plant {
     originBath.next.forEach((way) => {
       way.process.forEach((wayProcess) => {
         if (wayProcess === process) {
-          way.baths.forEach((bath) => nextBaths.push(bath));
+          way.baths.forEach((bath) => {
+            if (this.baths[bath].is_enabled) {
+              nextBaths.push(bath);
+            }
+          });
         }
       });
     });
