@@ -8,6 +8,7 @@ import { LogImportance, Process } from '../enums/shared.enums';
 // Interfaces
 import { AuftragSettings } from '../interfaces/auftrag.interfaces';
 import { WorkTime } from '../interfaces/shared.interfaces';
+import { plantSettings } from '../settings';
 import { Logger } from './logger.class';
 
 @Injectable({
@@ -68,7 +69,9 @@ export class Auftrag {
         }
         case BathType.Silver: {
           return Math.round(
-            ((this.silverAmount * (this.quantity / 1000)) / 6.7) * 60
+            894.45 *
+              ((this.silverAmount * (this.quantity / 1000)) /
+                plantSettings.AgCurrent)
           );
         }
         case BathType.PreTreatment:

@@ -313,7 +313,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 15
     name: 'Kupfer Elektrolyt',
     type: BathType.Copper,
-    is_enabled: false,
+    is_enabled: true,
     next: [
       {
         process: [Process.Copper, Process.PlantEmptying],
@@ -395,7 +395,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 21
     name: 'Silber Elektrolyt',
     type: BathType.Silver,
-    is_enabled: false,
+    is_enabled: true,
     next: [
       {
         process: [
