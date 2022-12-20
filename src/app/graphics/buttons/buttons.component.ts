@@ -14,6 +14,7 @@ export class SimulationButtonsComponent {
   };
   @Input() time: number;
   @Input() craneDistance: number;
+  @Input() waitingTime: number;
   @Output() clickStart = new EventEmitter<string>();
   @Output() clickPause = new EventEmitter<string>();
   @Output() clickResume = new EventEmitter<string>();

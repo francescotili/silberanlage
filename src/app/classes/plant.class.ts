@@ -32,6 +32,7 @@ export class Plant {
   private bathsWaiting: number[];
   private logger: Logger;
   craneTotalDistance: number;
+  totalBathsWaitingTime: number;
 
   /**
    * This function initialize the plant
@@ -53,6 +54,7 @@ export class Plant {
     this.completedAuftrags = [];
     this.simulationTime = 0;
     this.craneTotalDistance = 0;
+    this.totalBathsWaitingTime = 0;
 
     this.initializeBaths(bathsInitData);
     this.initializeCrane();
@@ -239,7 +241,13 @@ export class Plant {
         }
 
         case BathStatus.WaitingFull:
-        case BathStatus.WaitingCrane:
+        case BathStatus.WaitingCrane: {
+          if (typeof bath.drum.getAuftrag() !== 'undefined') {
+            this.totalBathsWaitingTime += sampleTime;
+          }
+          break;
+        }
+
         case BathStatus.Free:
         default: {
           break;
