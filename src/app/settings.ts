@@ -285,7 +285,7 @@ export const bathsInitData: BathSettings[] = [
     next: [
       {
         process: [Process.Copper],
-        baths: [14, 15],
+        baths: [14],
       },
       {
         process: [Process.Silver, Process.Rework],
@@ -313,7 +313,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 15
     name: 'Kupfer Elektrolyt',
     type: BathType.Copper,
-    is_enabled: true,
+    is_enabled: false,
     next: [
       {
         process: [Process.Copper, Process.PlantEmptying],
@@ -361,7 +361,7 @@ export const bathsInitData: BathSettings[] = [
     next: [
       {
         process: [Process.Copper],
-        baths: [20, 21],
+        baths: [20],
       },
       {
         process: [Process.PlantFilling],
@@ -395,7 +395,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 21
     name: 'Silber Elektrolyt',
     type: BathType.Silver,
-    is_enabled: true,
+    is_enabled: false,
     next: [
       {
         process: [
@@ -681,6 +681,196 @@ export const aufragToWork: AuftragSettings[] = [
     process: Process.Silver,
     silverAmount: 17.345,
     quantity: 18000,
+  },
+  {
+    number: '17150914',
+    material: '276.466.011',
+    process: Process.Copper,
+    copperAmount: 5, // Is it not specified on the Auftrag
+    silverAmount: 10,
+    quantity: 5000,
+  },
+  {
+    number: '16473799',
+    material: '257.024.101',
+    process: Process.Silver,
+    silverAmount: 17.345,
+    quantity: 18000,
+  },
+  {
+    number: '16473789',
+    material: '279.124.011',
+    process: Process.Silver,
+    silverAmount: 5.983,
+    quantity: 30000,
+  },
+  {
+    number: '16473789',
+    material: '279.124.011',
+    process: Process.Silver,
+    silverAmount: 5.983,
+    quantity: 30000,
+  },
+  {
+    number: '16473799',
+    material: '257.024.101',
+    process: Process.Silver,
+    silverAmount: 17.345,
+    quantity: 18000,
+  },
+  {
+    number: '16473799',
+    material: '257.024.101',
+    process: Process.Silver,
+    silverAmount: 17.345,
+    quantity: 18000,
+  },
+  {
+    number: '17150914',
+    material: '276.466.011',
+    process: Process.Copper,
+    copperAmount: 5, // Is it not specified on the Auftrag
+    silverAmount: 10,
+    quantity: 5000,
+  },
+  {
+    number: '16473799',
+    material: '257.024.101',
+    process: Process.Silver,
+    silverAmount: 17.345,
+    quantity: 18000,
+  },
+  {
+    number: '17150914',
+    material: '276.466.011',
+    process: Process.Copper,
+    copperAmount: 5, // Is it not specified on the Auftrag
+    silverAmount: 10,
+    quantity: 5000,
+  },
+  {
+    number: '16473799',
+    material: '257.024.101',
+    process: Process.Silver,
+    silverAmount: 17.345,
+    quantity: 18000,
+  },
+  {
+    number: '16473799',
+    material: '257.024.101',
+    process: Process.Silver,
+    silverAmount: 17.345,
+    quantity: 18000,
+  },
+  {
+    number: '16473789',
+    material: '279.124.011',
+    process: Process.Silver,
+    silverAmount: 5.983,
+    quantity: 30000,
+  },
+  {
+    number: '17150914',
+    material: '276.466.011',
+    process: Process.Copper,
+    copperAmount: 5, // Is it not specified on the Auftrag
+    silverAmount: 10,
+    quantity: 5000,
+  },
+  {
+    number: '17150914',
+    material: '276.466.011',
+    process: Process.Copper,
+    copperAmount: 5, // Is it not specified on the Auftrag
+    silverAmount: 10,
+    quantity: 5000,
+  },
+  {
+    number: '16473799',
+    material: '257.024.101',
+    process: Process.Silver,
+    silverAmount: 17.345,
+    quantity: 18000,
+  },
+  {
+    number: '16473789',
+    material: '279.124.011',
+    process: Process.Silver,
+    silverAmount: 5.983,
+    quantity: 30000,
+  },
+  {
+    number: '16473789',
+    material: '279.124.011',
+    process: Process.Silver,
+    silverAmount: 5.983,
+    quantity: 30000,
+  },
+  {
+    number: '16473799',
+    material: '257.024.101',
+    process: Process.Silver,
+    silverAmount: 17.345,
+    quantity: 18000,
+  },
+  {
+    number: '16473799',
+    material: '257.024.101',
+    process: Process.Silver,
+    silverAmount: 17.345,
+    quantity: 18000,
+  },
+  {
+    number: '17150914',
+    material: '276.466.011',
+    process: Process.Copper,
+    copperAmount: 5, // Is it not specified on the Auftrag
+    silverAmount: 10,
+    quantity: 5000,
+  },
+  {
+    number: '16473799',
+    material: '257.024.101',
+    process: Process.Silver,
+    silverAmount: 17.345,
+    quantity: 18000,
+  },
+  {
+    number: '17150914',
+    material: '276.466.011',
+    process: Process.Copper,
+    copperAmount: 5, // Is it not specified on the Auftrag
+    silverAmount: 10,
+    quantity: 5000,
+  },
+  {
+    number: '16473799',
+    material: '257.024.101',
+    process: Process.Silver,
+    silverAmount: 17.345,
+    quantity: 18000,
+  },
+  {
+    number: '16473799',
+    material: '257.024.101',
+    process: Process.Silver,
+    silverAmount: 17.345,
+    quantity: 18000,
+  },
+  {
+    number: '16473789',
+    material: '279.124.011',
+    process: Process.Silver,
+    silverAmount: 5.983,
+    quantity: 30000,
+  },
+  {
+    number: '17150914',
+    material: '276.466.011',
+    process: Process.Copper,
+    copperAmount: 5, // Is it not specified on the Auftrag
+    silverAmount: 10,
+    quantity: 5000,
   },
   {
     number: '17150914',

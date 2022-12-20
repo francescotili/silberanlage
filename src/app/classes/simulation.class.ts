@@ -31,12 +31,12 @@ export class Simulation {
   public startSimulation(): void {
     this.status = SimulationStatus.Running;
     this.time = 0;
-    this.stopSimulation(false);
 
     this.interval = setInterval(() => {
       this.plant.updateBaths(this.settings.sampleTime);
       this.plant.updateCrane(this.settings.sampleTime);
       this.time += this.settings.sampleTime;
+      this.stopSimulation(false);
     }, 1000 / this.settings.speed);
   }
 
