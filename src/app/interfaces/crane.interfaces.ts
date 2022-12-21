@@ -1,7 +1,8 @@
+import { Bath } from '../classes/bath.class';
 import { CraneWorkingPhase } from '../enums/crane.enums';
 
 /**
- * Interface for the operation phases of the crane
+ * Interface for the operational phases of the crane
  */
 export interface CranePhase {
   origin: number;
@@ -13,5 +14,9 @@ export interface CranePhase {
 }
 
 /**
- *
+ * Interface for an operation the crane needs to do
  */
+export interface CraneOperation {
+  origin: Bath;
+  destination: Bath;
+}

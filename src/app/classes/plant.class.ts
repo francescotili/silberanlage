@@ -4,12 +4,12 @@ import { Bath } from './bath.class';
 import { Crane } from './crane.class';
 import { Logger } from './logger.class';
 import { Drum } from './drum.class';
-import { defaultCraneTimes, simulationSettings } from '../settings';
+import { simulationSettings } from '../settings';
 
 // Interfaces
 import { AuftragSettings } from '../interfaces/auftrag.interfaces';
 import { BathSettings } from '../interfaces/baht.interfaces';
-import { CranePhase } from '../interfaces/crane.interfaces';
+import { CraneOperation, CranePhase } from '../interfaces/crane.interfaces';
 import { DrumSettings } from '../interfaces/drum.interfaces';
 
 // Enum
@@ -31,7 +31,6 @@ export class Plant {
   simulationTime: number;
   private bathsWaiting: number[];
   private logger: Logger;
-  craneTotalDistance: number;
   totalBathsWaitingTime: number;
 
   /**
@@ -53,7 +52,6 @@ export class Plant {
     this.logger = new Logger();
     this.completedAuftrags = [];
     this.simulationTime = 0;
-    this.craneTotalDistance = 0;
     this.totalBathsWaitingTime = 0;
 
     this.initializeBaths(bathsInitData);
@@ -448,83 +446,10 @@ export class Plant {
 
       if (typeof destinationBath !== 'undefined') {
         // Found a destination bath that is free
-
-        let phases: CranePhase[] = [];
-
-        // Push time to move from current crane position to origin position
-        let tempTime = this.crane.calculateMovingTime(
-          this.crane.position - originBath.id
-        );
-        if (tempTime > 0) {
-          phases.push({
-            origin: this.crane.position,
-            destination: originBath.id,
-            phase: CraneWorkingPhase.Moving,
-            time: tempTime,
-            transferDrum: false,
-          });
-          this.craneTotalDistance += Math.abs(
-            originBath.id - this.crane.position
-          );
-        }
-
-        // Push time to drain
-        if (typeof originBath.drainTime !== 'undefined') {
-          phases.push({
-            origin: originBath.id,
-            phase: CraneWorkingPhase.Draining,
-            time: originBath.drainTime,
-            transferDrum: true,
-          });
-        } else {
-          phases.push({
-            origin: originBath.id,
-            phase: CraneWorkingPhase.Draining,
-            time: defaultCraneTimes.drain,
-            transferDrum: true,
-          });
-        }
-
-        // Push time to pickup
-        phases.push({
-          origin: originBath.id,
-          phase: CraneWorkingPhase.Picking,
-          time: defaultCraneTimes.pick,
-          transferDrum: false,
-        });
-
-        // Push time to move from origin to destination position
-        tempTime = this.crane.calculateMovingTime(
-          originBath.id - destinationBath.id
-        );
-        if (tempTime > 0) {
-          phases.push({
-            origin: originBath.id,
-            destination: destinationBath.id,
-            phase: CraneWorkingPhase.Moving,
-            time: tempTime,
-            transferDrum: false,
-          });
-          this.craneTotalDistance += Math.abs(
-            destinationBath.id - originBath.id
-          );
-        }
-
-        // Push time to drop
-        phases.push({
-          origin: destinationBath.id,
-          phase: CraneWorkingPhase.Dropping,
-          time: defaultCraneTimes.drop,
-          transferDrum: true,
-        });
-
-        // Send operation to crane
-        this.logger.log(
-          'Plant:updateCrane',
-          'The crane starts a new operation',
-          LogImportance.Normal
-        );
-        this.crane.setStatus(CraneStatus.Working, phases);
+        this.crane.setStatus(CraneStatus.Working, {
+          origin: originBath,
+          destination: destinationBath,
+        } as CraneOperation);
         this.bathsWaiting.splice(i, 1);
         break;
       }

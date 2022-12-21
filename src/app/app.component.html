@@ -28,7 +28,7 @@
 <simulation-buttons
   [viewBtn]="this.viewBtn"
   [time]="getSimulationTime()"
-  [craneDistance]="this.silberAnlage.craneTotalDistance"
+  [craneDistance]="this.silberAnlage.crane.craneTotalDistance"
   [waitingTime]="this.silberAnlage.totalBathsWaitingTime"
   (clickStart)="simulationStart()"
   (clickPause)="simulationPause()"

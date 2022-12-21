@@ -6,7 +6,7 @@ import { defaultCraneTimes, plantSettings } from '../settings';
 import { CraneStatus, CraneWorkingPhase } from '../enums/crane.enums';
 
 // Interfaces
-import { CranePhase } from '../interfaces/crane.interfaces';
+import { CraneOperation, CranePhase } from '../interfaces/crane.interfaces';
 import { Logger } from './logger.class';
 import { LogImportance } from '../enums/shared.enums';
 
@@ -32,12 +32,14 @@ export class Crane {
   phases: CranePhase[];
   currentPhase: CraneWorkingPhase | undefined;
   private logger: Logger;
+  craneTotalDistance: number;
 
   constructor() {
     this.position = plantSettings.craneStartingPosition;
     this.status = CraneStatus.Waiting;
     this.phases = [];
     this.logger = new Logger();
+    this.craneTotalDistance = 0;
   }
 
   /**
@@ -116,7 +118,8 @@ export class Crane {
    * @param status The status to set
    * @param phases An Array of CranePhase to do, required for the status "Working"
    */
-  public setStatus(status: CraneStatus, phases?: CranePhase[]): void {
+  // public setStatus(status: CraneStatus, phases?: CranePhase[]): void {
+  public setStatus(status: CraneStatus, operation?: CraneOperation): void {
     this.logger.log(
       'Crane:setStatus',
       `New status requested for the crane: ${CraneStatus[status]}`,
@@ -130,10 +133,73 @@ export class Crane {
         break;
       }
       case CraneStatus.Working: {
-        if (typeof phases !== 'undefined') {
-          this.phases = phases;
-          this.currentPhase = phases[0].phase;
-          this.remainingTime = phases[0].time;
+        if (typeof operation !== 'undefined') {
+          this.phases = [];
+
+          // Push time to move from current crane position to origin position
+          let tempTime = this.calculateMovingTime(
+            this.position - operation.origin.id
+          );
+          if (tempTime > 0) {
+            this.phases.push({
+              origin: this.position,
+              destination: operation.origin.id,
+              phase: CraneWorkingPhase.Moving,
+              time: tempTime,
+              transferDrum: false,
+            } as CranePhase);
+            this.craneTotalDistance += Math.abs(
+              operation.origin.id - this.position
+            );
+          }
+
+          // Push time to drain
+          this.phases.push({
+            origin: operation.origin.id,
+            phase: CraneWorkingPhase.Draining,
+            time:
+              typeof operation.origin.drainTime !== 'undefined'
+                ? operation.origin.drainTime
+                : defaultCraneTimes.drain,
+            transferDrum: true,
+          } as CranePhase);
+
+          // Push time to pickup
+          this.phases.push({
+            origin: operation.origin.id,
+            phase: CraneWorkingPhase.Picking,
+            time: defaultCraneTimes.pick,
+            transferDrum: false,
+          } as CranePhase);
+
+          // Push time to move from origin to destination position
+          tempTime = this.calculateMovingTime(
+            operation.origin.id - operation.destination.id
+          );
+          if (tempTime > 0) {
+            this.phases.push({
+              origin: operation.origin.id,
+              destination: operation.destination.id,
+              phase: CraneWorkingPhase.Moving,
+              time: tempTime,
+              transferDrum: false,
+            } as CranePhase);
+            this.craneTotalDistance += Math.abs(
+              operation.destination.id - operation.origin.id
+            );
+          }
+
+          // Push time to drop
+          this.phases.push({
+            origin: operation.destination.id,
+            phase: CraneWorkingPhase.Dropping,
+            time: defaultCraneTimes.drop,
+            transferDrum: true,
+          } as CranePhase);
+
+          // Send operation to the crane
+          this.currentPhase = this.phases[0].phase;
+          this.remainingTime = this.phases[0].time;
           this.logger.log(
             'Crane:nextPhase',
             `New phase for Crane: ${CraneWorkingPhase[this.phases[0].phase]}`,
