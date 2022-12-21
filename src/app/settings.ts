@@ -38,7 +38,7 @@ export const simulationSettings: SimulationSettings = {
    * Speed of the simulation -
    * 1 is realtime, 10 is 10X and so on
    */
-  speed: 10,
+  speed: 1000,
   /**
    * Max duration of the simulation, in seconds -
    * 16 hours = 57.600 seconds

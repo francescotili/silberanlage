@@ -487,9 +487,6 @@ export class Plant {
           origin: originBath,
           destination: destinationBath,
         } as CraneOperation);
-
-        console.log(this.bathsWaiting);
-        console.log(sortedWaitingList);
         this.bathsWaiting = this.bathsWaiting.filter((a) => {
           return a !== sortedWaitingList[i];
         });
