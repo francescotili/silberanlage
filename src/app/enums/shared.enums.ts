@@ -18,10 +18,11 @@ export enum Process {
  * Enum to store Priority levels
  */
 export enum Priority {
+  SubLow,
   Low,
   Normal,
   High,
-  Highest,
+  SuperHigh,
 }
 
 /**

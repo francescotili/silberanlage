@@ -472,7 +472,7 @@ export class Plant {
 
     // Sort waiting list based on priority
     let sortedWaitingList: number[] = this.bathsWaiting.sort(
-      (a, b) => this.baths[a].priority - this.baths[b].priority
+      (a, b) => this.baths[b].priority - this.baths[a].priority
     );
 
     // Find a free destination bath
@@ -487,6 +487,9 @@ export class Plant {
           origin: originBath,
           destination: destinationBath,
         } as CraneOperation);
+
+        console.log(this.bathsWaiting);
+        console.log(sortedWaitingList);
         this.bathsWaiting = this.bathsWaiting.filter((a) => {
           return a !== sortedWaitingList[i];
         });
