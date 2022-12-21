@@ -457,6 +457,13 @@ export class Plant {
   }
 
   /**
+   * This is the FCFS Scheduler with Priority
+   * The Crane will start evaluating from the older operation in the list, but
+   * with decreasing priority. FIFO Logic with priority.
+   */
+  private schedulerFCFSPrio(): void {}
+
+  /**
    * This function finds a suitable destination bath for the specified origin bath
    * based on the process type and status of the next baths
    *

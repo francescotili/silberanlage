@@ -4,7 +4,13 @@
 
 // Enums
 import { BathType } from './enums/bath.enums';
-import { Graphics, LogLevel, Process, Scheduler } from './enums/shared.enums';
+import {
+  Graphics,
+  LogLevel,
+  Priority,
+  Process,
+  Scheduler,
+} from './enums/shared.enums';
 
 // Interfaces
 import { AuftragSettings } from './interfaces/auftrag.interfaces';
@@ -153,6 +159,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 3
     name: 'Abkochentfettung',
     type: BathType.PreTreatment,
+    priority: Priority.Normal,
     is_enabled: true,
     next: [
       {
@@ -181,6 +188,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 7
     name: 'Elektrolitisch Entfettung',
     type: BathType.PreTreatment,
+    priority: Priority.Normal,
     is_enabled: true,
     drainTime: 30,
     next: [
@@ -198,6 +206,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 8
     name: 'Standspüle (Kaskade)',
     type: BathType.RinseStand,
+    priority: Priority.Normal,
     is_enabled: true,
     next: [
       {
@@ -214,6 +223,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 9
     name: 'Standspüle (Kaskade)',
     type: BathType.RinseStand,
+    priority: Priority.Normal,
     is_enabled: true,
     next: [
       {
@@ -230,6 +240,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 10
     name: 'Fliessspüle',
     type: BathType.RinseFlow,
+    priority: Priority.Normal,
     is_enabled: true,
     next: [
       {
@@ -246,6 +257,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 11
     name: 'Dekapierung',
     type: BathType.PreTreatment,
+    priority: Priority.High,
     is_enabled: true,
     next: [
       {
@@ -263,6 +275,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 12
     name: 'Standspüle',
     type: BathType.RinseStand,
+    priority: Priority.Normal,
     is_enabled: true,
     next: [
       {
@@ -279,6 +292,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 13
     name: 'Fliessspule',
     type: BathType.RinseFlow,
+    priority: Priority.Low,
     is_enabled: true,
     next: [
       {
@@ -299,6 +313,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 14
     name: 'Kupfer Elektrolyt',
     type: BathType.Copper,
+    priority: Priority.High,
     is_enabled: true,
     next: [
       {
@@ -311,6 +326,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 15
     name: 'Kupfer Elektrolyt',
     type: BathType.Copper,
+    priority: Priority.High,
     is_enabled: true,
     next: [
       {
@@ -323,6 +339,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 16
     name: 'Standspüle (Kaskade)',
     type: BathType.RinseStand,
+    priority: Priority.Normal,
     is_enabled: true,
     next: [
       {
@@ -339,6 +356,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 17
     name: 'Standspüle (Kaskade)',
     type: BathType.RinseStand,
+    priority: Priority.Normal,
     is_enabled: true,
     next: [
       {
@@ -355,6 +373,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 18
     name: 'Fließspüle',
     type: BathType.RinseFlow,
+    priority: Priority.Low,
     is_enabled: true,
     next: [
       {
@@ -376,6 +395,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 20
     name: 'Silber Elektrolyt',
     type: BathType.Silver,
+    priority: Priority.High,
     is_enabled: true,
     next: [
       {
@@ -393,6 +413,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 21
     name: 'Silber Elektrolyt',
     type: BathType.Silver,
+    priority: Priority.High,
     is_enabled: true,
     next: [
       {
@@ -415,6 +436,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 23
     name: 'Standspüle (Kaskade)',
     type: BathType.RinseStand,
+    priority: Priority.Highest,
     is_enabled: true,
     next: [
       {
@@ -431,6 +453,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 24
     name: 'Standspüle (Kaskade)',
     type: BathType.RinseStand,
+    priority: Priority.Highest,
     is_enabled: true,
     next: [
       {
@@ -452,6 +475,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 26
     name: 'Fliessspüle',
     type: BathType.RinseFlow,
+    priority: Priority.Low,
     is_enabled: true,
     next: [
       {
@@ -505,6 +529,7 @@ export const bathsInitData: BathSettings[] = [
     // Bad 30
     name: 'Fliessspüle',
     type: BathType.RinseFlow,
+    priority: Priority.Low,
     is_enabled: true,
     next: [
       {
@@ -522,6 +547,7 @@ export const bathsInitData: BathSettings[] = [
     // Position 31
     name: 'Abladestation',
     type: BathType.LoadingStation,
+    priority: Priority.Normal,
     is_enabled: true,
     next: [
       {
