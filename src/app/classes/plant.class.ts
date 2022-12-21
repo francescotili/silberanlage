@@ -125,7 +125,7 @@ export class Plant {
 
   /**
    * This function search a free bath for assigning a new empty drum
-   * It will follow this prioritization: LoadingStation, Rinseflow, Parkplatz
+   * It will follow this prioritization: LoadingStation, Parkplatz, Rinseflow
    * If no bath are found, there are no places to assign new Drums
    *
    * @returns the bath acceptable for the Drum
@@ -141,21 +141,22 @@ export class Plant {
     }
     for (let i = 0; i < this.baths.length; i++) {
       if (
-        this.baths[i].type === BathType.RinseFlow &&
-        typeof this.baths[i].drum === 'undefined'
-      ) {
-        return i;
-      }
-    }
-    for (let i = 0; i < this.baths.length; i++) {
-      if (
         this.baths[i].type === BathType.Parkplatz &&
         typeof this.baths[i].drum === 'undefined'
       ) {
         return i;
       }
     }
-    return undefined;
+    let destBath: number;
+    for (let i = 0; i < this.baths.length; i++) {
+      if (
+        this.baths[i].type === BathType.RinseFlow &&
+        typeof this.baths[i].drum === 'undefined'
+      ) {
+        destBath = i;
+      }
+    }
+    return destBath;
   }
 
   /**
