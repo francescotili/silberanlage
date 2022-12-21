@@ -1,7 +1,5 @@
 /**
  * This file collects all the settings for the app.
- *
- * TODO: make this a service to read the settings from separate .json files
  */
 
 // Enums
