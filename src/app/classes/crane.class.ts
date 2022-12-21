@@ -6,7 +6,7 @@ import { defaultCraneTimes, plantSettings } from '../settings';
 import { CraneStatus, CraneWorkingPhase } from '../enums/crane.enums';
 
 // Interfaces
-import { CraneOperation } from '../interfaces/crane.interfaces';
+import { CranePhase } from '../interfaces/crane.interfaces';
 import { Logger } from './logger.class';
 import { LogImportance } from '../enums/shared.enums';
 
@@ -29,7 +29,7 @@ export class Crane {
   private status: CraneStatus;
   drum: Drum | undefined;
   remainingTime: number | undefined;
-  phases: CraneOperation[];
+  phases: CranePhase[];
   currentPhase: CraneWorkingPhase | undefined;
   private logger: Logger;
 
@@ -114,9 +114,9 @@ export class Crane {
    * modifications
    *
    * @param status The status to set
-   * @param phases An Array of CraneOperation to do, required for the status "Working"
+   * @param phases An Array of CranePhase to do, required for the status "Working"
    */
-  public setStatus(status: CraneStatus, phases?: CraneOperation[]): void {
+  public setStatus(status: CraneStatus, phases?: CranePhase[]): void {
     this.logger.log(
       'Crane:setStatus',
       `New status requested for the crane: ${CraneStatus[status]}`,

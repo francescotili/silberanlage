@@ -3,7 +3,7 @@ import { CraneWorkingPhase } from '../enums/crane.enums';
 /**
  * Interface for the operation phases of the crane
  */
-export interface CraneOperation {
+export interface CranePhase {
   origin: number;
   destination?: number;
   time: number;
@@ -11,3 +11,7 @@ export interface CraneOperation {
   transferDrum: boolean;
   // priority: Priority
 }
+
+/**
+ *
+ */

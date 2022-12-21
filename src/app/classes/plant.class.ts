@@ -9,7 +9,7 @@ import { defaultCraneTimes, simulationSettings } from '../settings';
 // Interfaces
 import { AuftragSettings } from '../interfaces/auftrag.interfaces';
 import { BathSettings } from '../interfaces/baht.interfaces';
-import { CraneOperation } from '../interfaces/crane.interfaces';
+import { CranePhase } from '../interfaces/crane.interfaces';
 import { DrumSettings } from '../interfaces/drum.interfaces';
 
 // Enum
@@ -449,7 +449,7 @@ export class Plant {
       if (typeof destinationBath !== 'undefined') {
         // Found a destination bath that is free
 
-        let phases: CraneOperation[] = [];
+        let phases: CranePhase[] = [];
 
         // Push time to move from current crane position to origin position
         let tempTime = this.crane.calculateMovingTime(
