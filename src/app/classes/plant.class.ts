@@ -471,7 +471,6 @@ export class Plant {
     let destinationBath: Bath;
 
     // Sort waiting list based on priority
-    console.log(this.bathsWaiting);
     let sortedWaitingList: number[] = this.bathsWaiting.sort(
       (a, b) => this.baths[a].priority - this.baths[b].priority
     );
