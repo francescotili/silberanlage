@@ -411,6 +411,10 @@ export class Plant {
               this.scheduleFCFS();
               break;
             }
+            case Scheduler.FCFSPrio: {
+              this.schedulerFCFSPrio();
+              break;
+            }
             default: {
               this.logger.log(
                 'Plant:scheduleOperation',
@@ -461,7 +465,35 @@ export class Plant {
    * The Crane will start evaluating from the older operation in the list, but
    * with decreasing priority. FIFO Logic with priority.
    */
-  private schedulerFCFSPrio(): void {}
+  private schedulerFCFSPrio(): void {
+    let originBath: Bath;
+    let destinationBath: Bath;
+
+    // Sort waiting list based on priority
+    console.log(this.bathsWaiting);
+    let sortedWaitingList: number[] = this.bathsWaiting.sort(
+      (a, b) => this.baths[a].priority - this.baths[b].priority
+    );
+
+    // Find a free destination bath
+    for (let i = 0; i < sortedWaitingList.length; i++) {
+      // Determine origine and destination bath
+      originBath = this.baths[sortedWaitingList[i]];
+      destinationBath = this.findDestinationBath(originBath);
+
+      if (typeof destinationBath !== 'undefined') {
+        // Found a destination bath that is free
+        this.crane.setStatus(CraneStatus.Working, {
+          origin: originBath,
+          destination: destinationBath,
+        } as CraneOperation);
+        this.bathsWaiting = this.bathsWaiting.filter((a) => {
+          return a !== sortedWaitingList[i];
+        });
+        break;
+      }
+    }
+  }
 
   /**
    * This function finds a suitable destination bath for the specified origin bath

@@ -38,7 +38,7 @@ export const simulationSettings: SimulationSettings = {
    * Speed of the simulation -
    * 1 is realtime, 10 is 10X and so on
    */
-  speed: 1000,
+  speed: 10,
   /**
    * Max duration of the simulation, in seconds -
    * 16 hours = 57.600 seconds
@@ -53,7 +53,7 @@ export const simulationSettings: SimulationSettings = {
   /**
    * Type of Scheduler to use for the crane
    */
-  scheduler: Scheduler.FCFS,
+  scheduler: Scheduler.FCFSPrio,
   /**
    * Level of logging in Console
    */
