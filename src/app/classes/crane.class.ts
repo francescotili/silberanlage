@@ -67,8 +67,8 @@ export class Crane {
       }
       case CraneWorkingPhase.Moving: {
         this.position = Math.round(
-          (this.phases[0].time - this.remainingTime) /
-            (this.phases[0].time /
+          (this.phases[0].duration - this.remainingTime) /
+            (this.phases[0].duration /
               (this.phases[0].destination - this.phases[0].origin)) +
             this.phases[0].origin
         );
@@ -145,7 +145,7 @@ export class Crane {
               origin: this.position,
               destination: operation.origin.id,
               phase: CraneWorkingPhase.Moving,
-              time: tempTime,
+              duration: tempTime,
               transferDrum: false,
             } as CranePhase);
             this.craneTotalDistance += Math.abs(
@@ -157,7 +157,7 @@ export class Crane {
           this.phases.push({
             origin: operation.origin.id,
             phase: CraneWorkingPhase.Draining,
-            time:
+            duration:
               typeof operation.origin.drainTime !== 'undefined'
                 ? operation.origin.drainTime
                 : defaultCraneTimes.drain,
@@ -168,7 +168,7 @@ export class Crane {
           this.phases.push({
             origin: operation.origin.id,
             phase: CraneWorkingPhase.Picking,
-            time: defaultCraneTimes.pick,
+            duration: defaultCraneTimes.pick,
             transferDrum: false,
           } as CranePhase);
 
@@ -181,7 +181,7 @@ export class Crane {
               origin: operation.origin.id,
               destination: operation.destination.id,
               phase: CraneWorkingPhase.Moving,
-              time: tempTime,
+              duration: tempTime,
               transferDrum: false,
             } as CranePhase);
             this.craneTotalDistance += Math.abs(
@@ -193,13 +193,13 @@ export class Crane {
           this.phases.push({
             origin: operation.destination.id,
             phase: CraneWorkingPhase.Dropping,
-            time: defaultCraneTimes.drop,
+            duration: defaultCraneTimes.drop,
             transferDrum: true,
           } as CranePhase);
 
           // Send operation to the crane
           this.currentPhase = this.phases[0].phase;
-          this.remainingTime = this.phases[0].time;
+          this.remainingTime = this.phases[0].duration;
           this.logger.log(
             'Crane:nextPhase',
             `New phase for Crane: ${CraneWorkingPhase[this.phases[0].phase]}`,
@@ -237,7 +237,7 @@ export class Crane {
         LogImportance.Normal
       );
       this.currentPhase = this.phases[0].phase;
-      this.remainingTime = this.phases[0].time;
+      this.remainingTime = this.phases[0].duration;
     } else {
       this.logger.log(
         'Crane:nextPhase',

@@ -23,7 +23,7 @@ import { SimulationSettings, WorkTime } from './interfaces/shared.interfaces';
  */
 export const plantSettings = {
   /** Current, in Ampere, to use at the PSU for Silver Baths */
-  AgCurrent: 100,
+  AgCurrent: 70,
   /** Current, in Ampere, to use at the PSU for Copper Baths */
   CuCurrent: 100,
   /** The starting position of the Crane */

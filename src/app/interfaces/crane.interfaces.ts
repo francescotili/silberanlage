@@ -7,7 +7,7 @@ import { CraneWorkingPhase } from '../enums/crane.enums';
 export interface CranePhase {
   origin: number;
   destination?: number;
-  time: number;
+  duration: number;
   phase: CraneWorkingPhase;
   transferDrum: boolean;
   // priority: Priority

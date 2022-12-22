@@ -16,7 +16,12 @@ import { DrumSettings } from '../interfaces/drum.interfaces';
 import { BathStatus, BathType } from '../enums/bath.enums';
 import { AuftragStatus } from '../enums/auftrag.enums';
 import { CraneStatus, CraneWorkingPhase } from '../enums/crane.enums';
-import { LogImportance, Process, Scheduler } from '../enums/shared.enums';
+import {
+  LogImportance,
+  Priority,
+  Process,
+  Scheduler,
+} from '../enums/shared.enums';
 
 @Injectable({
   providedIn: 'root',
@@ -483,6 +488,7 @@ export class Plant {
 
       if (typeof destinationBath !== 'undefined') {
         // Found a destination bath that is free
+
         this.crane.setStatus(CraneStatus.Working, {
           origin: originBath,
           destination: destinationBath,

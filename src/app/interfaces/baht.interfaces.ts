@@ -21,5 +21,3 @@ export interface BathSettings {
     baths: number[];
   }[];
 }
-
-
