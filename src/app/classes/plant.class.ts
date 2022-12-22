@@ -216,6 +216,7 @@ export class Plant {
                   this.auftrags[0].setStatus(AuftragStatus.Loading);
                   bath.drum.loadParts(this.auftrags[0]);
                   bath.setStatus(BathStatus.Working);
+                  //TODO: Add new item in advanced waiting list
                   this.auftrags.splice(0, 1); // Remove auftrag from the waiting list
                 }
                 break;
@@ -225,6 +226,7 @@ export class Plant {
                 // We can append operation to Crane, so maybe we can move
                 // the empty drum forward toward the loadingStation
                 this.appendOperation(bath.id);
+                //TODO: Add new item in advanced waiting list
                 bath.setStatus(BathStatus.WaitingCrane);
                 break;
               }
@@ -365,6 +367,7 @@ export class Plant {
             BathStatus.Working,
             this.crane.drum
           );
+          // TODO: Already add operation to advanced waiting list
           this.auftrags.forEach((auftrag) => {
             if (
               auftrag.number ===

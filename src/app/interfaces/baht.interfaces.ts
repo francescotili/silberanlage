@@ -21,3 +21,19 @@ export interface BathSettings {
     baths: number[];
   }[];
 }
+
+/**
+ * Interface for the advanced bath waiting list
+ */
+export interface BathOperation {
+  /** Origin of the operation */
+  origin: number;
+  /** Destination of the operation */
+  destination: number;
+  /** Time remaining until the operation can be executed */
+  timeToGo: number;
+  /** If the destination bath is free or not - evaluate if this is needed */
+  pathBlocked: boolean;
+  /** Priority of the operation */
+  priority: Priority;
+}
