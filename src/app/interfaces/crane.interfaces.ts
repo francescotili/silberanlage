@@ -1,4 +1,6 @@
 import { Bath } from '../classes/bath.class';
+
+// Enums
 import { CraneWorkingPhase } from '../enums/crane.enums';
 
 /**

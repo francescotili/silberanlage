@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Drum } from './drum.class';
+import { Logger } from './logger.class';
 import { defaultCraneTimes, plantSettings } from '../settings';
 
 // Enums
@@ -7,7 +8,6 @@ import { CraneStatus, CraneWorkingPhase } from '../enums/crane.enums';
 
 // Interfaces
 import { CraneOperation, CranePhase } from '../interfaces/crane.interfaces';
-import { Logger } from './logger.class';
 import { LogImportance } from '../enums/shared.enums';
 
 @Injectable({

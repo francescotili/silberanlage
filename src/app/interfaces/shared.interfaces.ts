@@ -1,3 +1,4 @@
+// Enums
 import { BathType } from '../enums/bath.enums';
 import { Graphics, LogLevel, Scheduler } from '../enums/shared.enums';
 

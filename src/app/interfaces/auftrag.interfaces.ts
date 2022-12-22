@@ -1,4 +1,7 @@
+// Enums
 import { Process } from '../enums/shared.enums';
+
+// Interfaces
 import { WorkTime } from './shared.interfaces';
 
 /**

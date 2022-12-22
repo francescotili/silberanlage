@@ -6,22 +6,17 @@ import { Logger } from './logger.class';
 import { Drum } from './drum.class';
 import { simulationSettings } from '../settings';
 
+// Enum
+import { AuftragStatus } from '../enums/auftrag.enums';
+import { BathStatus, BathType } from '../enums/bath.enums';
+import { CraneStatus } from '../enums/crane.enums';
+import { LogImportance, Process, Scheduler } from '../enums/shared.enums';
+
 // Interfaces
 import { AuftragSettings } from '../interfaces/auftrag.interfaces';
-import { BathSettings } from '../interfaces/baht.interfaces';
-import { CraneOperation, CranePhase } from '../interfaces/crane.interfaces';
+import { BathSettings } from '../interfaces/bath.interfaces';
+import { CraneOperation } from '../interfaces/crane.interfaces';
 import { DrumSettings } from '../interfaces/drum.interfaces';
-
-// Enum
-import { BathStatus, BathType } from '../enums/bath.enums';
-import { AuftragStatus } from '../enums/auftrag.enums';
-import { CraneStatus, CraneWorkingPhase } from '../enums/crane.enums';
-import {
-  LogImportance,
-  Priority,
-  Process,
-  Scheduler,
-} from '../enums/shared.enums';
 
 @Injectable({
   providedIn: 'root',

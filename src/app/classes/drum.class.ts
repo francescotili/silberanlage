@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Auftrag } from './auftrag.class';
+import { Logger } from './logger.class';
 
 // Enums
 import { DrumStatus } from '../enums/drum.enums';
-import { Logger } from './logger.class';
 import { LogImportance } from '../enums/shared.enums';
 
 /**

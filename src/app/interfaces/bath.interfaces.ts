@@ -1,3 +1,4 @@
+// Enums
 import { BathType } from '../enums/bath.enums';
 import { Priority, Process } from '../enums/shared.enums';
 

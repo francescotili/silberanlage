@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Logger } from './logger.class';
+import { plantSettings } from '../settings';
 
 // Enums
 import { AuftragStatus } from '../enums/auftrag.enums';
@@ -8,8 +10,6 @@ import { LogImportance, Process } from '../enums/shared.enums';
 // Interfaces
 import { AuftragSettings } from '../interfaces/auftrag.interfaces';
 import { WorkTime } from '../interfaces/shared.interfaces';
-import { plantSettings } from '../settings';
-import { Logger } from './logger.class';
 
 @Injectable({
   providedIn: 'root',

@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { LogImportance, LogLevel } from '../enums/shared.enums';
 import { TimeOutputPipe } from '../pipes/timeOutput.pipe';
 import { simulationSettings } from '../settings';
+
+// Enums
+import { LogImportance, LogLevel } from '../enums/shared.enums';
 
 /**
  * Class for log Managemen

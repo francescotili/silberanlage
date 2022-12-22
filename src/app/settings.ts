@@ -14,7 +14,7 @@ import {
 
 // Interfaces
 import { AuftragSettings } from './interfaces/auftrag.interfaces';
-import { BathSettings } from './interfaces/baht.interfaces';
+import { BathSettings } from './interfaces/bath.interfaces';
 import { DrumSettings } from './interfaces/drum.interfaces';
 import { SimulationSettings, WorkTime } from './interfaces/shared.interfaces';
 

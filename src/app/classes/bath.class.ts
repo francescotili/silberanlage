@@ -7,7 +7,7 @@ import { BathStatus, BathType } from '../enums/bath.enums';
 import { LogImportance, Priority, Process } from '../enums/shared.enums';
 
 // Interfaces
-import { BathSettings } from '../interfaces/baht.interfaces';
+import { BathSettings } from '../interfaces/bath.interfaces';
 import { Logger } from './logger.class';
 
 @Injectable({
